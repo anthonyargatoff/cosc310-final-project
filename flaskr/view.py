@@ -6,7 +6,7 @@ view = Blueprint('view', __name__)
 @view.route('/eventAPI', methods = ['GET'])
 def eventAPI():
     startTime = request.args.get('starttime', default='2022-03-01', type=str)
-    endTime = request.args.get('endtime', default='2022-04-01', type=str)
+    endTime = request.args.get('endtime', default='2022-03-02', type=str)
     minMagnitude = request.args.get('minmagnitude', default=0, type= float)
     maxMagnitude = request.args.get('maxmagnitude', default=10, type = float)
 
