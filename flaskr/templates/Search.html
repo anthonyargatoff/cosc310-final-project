@@ -10,7 +10,6 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='resources/styles/mapStyles.css') }}">
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  <script src="{{ url_for('static', filename='resources/scripts/dataScript.js')}}" defer></script>
   <script src="{{ url_for('static', filename='resources/scripts/mapScript.js') }}" defer></script>
 </head>
 
@@ -66,11 +65,7 @@
           <!-- Event List Component-->
           <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-body-tertiary overflow-auto"  style="height: 30em">
             <h2 class="fs-5 fw-semibold" style="margin: 1em; text-align: center;">Seismic Events</h2>
-            <div class="list-group list-group-flush border-bottom">
-
-              <!-- Adds sample events to the list.
-              TODO replace this with actual event data -->
-              {% include 'sampleEventList.html' %}
+            <div class="list-group list-group-flush border-bottom" id="displayResults">
               
             </div>
           </div>
