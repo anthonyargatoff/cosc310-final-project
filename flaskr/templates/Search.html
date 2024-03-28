@@ -22,121 +22,65 @@
     <!-- Row 1: filter and map-->
     <div class="row row-cols-auto h-75">
       <!-- Filter List Component-->
-      <div class="col col-sm-3 justify-content-start">
+      <div class="col col-md-4 col-lg-3">
         <div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary">
           <span class="fs-4">Search</span>
           <hr>
-          <div class="input-group">
+          <div class="input-group mb-2">
             <input type="search" class="form-control rounded" placeholder="Search location" aria-label="Search"
               aria-describedby="search-addon" />
             <button type="button" class="btn btn-outline-primary" data-mdb-ripple-init>search</button>
           </div>
+            <div class="form-check mb-2">
+              <input class="form-check-input" type="radio" name="time" id="date24Hrs" value="24hrs"checked>
+              <label class="form-check-label" for="date24Hrs">
+                Last 24 Hours
+              </label>
+            </div>
+            <div class="form-check mb-2">
+              <input class="form-check-input" type="radio" name="time" id="date7Days">
+              <label class="form-check-label" for="date7Days">
+                Last 7 days
+              </label>
+            </div>
+            <div class="form-check mb-2">
+              <input class="form-check-input" type="radio" name="time" id="date30Days">
+              <label class="form-check-label" for="date30Days">
+                Last 30 days
+              </label>
+            </div>
+            <span class="fs-6 text-center">Magnitude</span>
+
+          <div class="input-group mb-2 justify-content-center">
+            <input type="number" id="minMag" name="minMag" min="0" max="10" step="0.1" size="4">
+            <span class="input-group-text" id="basic-addon1">Between</span>
+            <input type="number" id="maxMag" name="maxMag" min="0" max="10" step="0.1" size="4">
+        </div>
+
+          <div class="input-group mb-2 justify-content-center">
+            <button class="btn btn-outline-secondary" type="button" id="search-addon">Clear</button>
+            <button class="btn btn-outline-secondary " type="button" id="search-addon">Filter</button>
+
+        </div>
+          
           <!-- Event List Component-->
-          <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-body-tertiary overflow-auto" style="height: 38em;">
+          <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-body-tertiary overflow-auto"  style="height: 30em">
             <h2 class="fs-5 fw-semibold" style="margin: 1em; text-align: center;">Seismic Events</h2>
             <div class="list-group list-group-flush border-bottom">
 
-              <a href="#" class="list-group-item list-group-item-action active py-3 lh-sm" aria-current="true">
-                <div class="d-flex w-100 align-items-center justify-content-between">
-                  <strong class="mb-1">List group item heading</strong>
-                  <small>Wed</small>
-                </div>
-                <div class="mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
-              </a>
-
-              <a href="#" class="list-group-item list-group-item-action py-3 lh-sm">
-                <div class="d-flex w-100 align-items-center justify-content-between">
-                  <strong class="mb-1">List group item heading</strong>
-                  <small class="text-body-secondary">Tues</small>
-                </div>
-                <div class="mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
-              </a>
-
-              <a href="#" class="list-group-item list-group-item-action py-3 lh-sm">
-                <div class="d-flex w-100 align-items-center justify-content-between">
-                  <strong class="mb-1">List group item heading</strong>
-                  <small class="text-body-secondary">Mon</small>
-                </div>
-                <div class="mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
-              </a>
-
-              <a href="#" class="list-group-item list-group-item-action py-3 lh-sm" aria-current="true">
-                <div class="d-flex w-100 align-items-center justify-content-between">
-                  <strong class="mb-1">List group item heading</strong>
-                  <small class="text-body-secondary">Wed</small>
-                </div>
-                <div class="mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
-              </a>
-
-              <a href="#" class="list-group-item list-group-item-action py-3 lh-sm">
-                <div class="d-flex w-100 align-items-center justify-content-between">
-                  <strong class="mb-1">List group item heading</strong>
-                  <small class="text-body-secondary">Tues</small>
-                </div>
-                <div class="mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
-              </a>
-
-              <a href="#" class="list-group-item list-group-item-action py-3 lh-sm">
-                <div class="d-flex w-100 align-items-center justify-content-between">
-                  <strong class="mb-1">List group item heading</strong>
-                  <small class="text-body-secondary">Mon</small>
-                </div>
-                <div class="mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
-              </a>
-
-              <a href="#" class="list-group-item list-group-item-action py-3 lh-sm" aria-current="true">
-                <div class="d-flex w-100 align-items-center justify-content-between">
-                  <strong class="mb-1">List group item heading</strong>
-                  <small class="text-body-secondary">Wed</small>
-                </div>
-                <div class="mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
-              </a>
-
-              <a href="#" class="list-group-item list-group-item-action py-3 lh-sm">
-                <div class="d-flex w-100 align-items-center justify-content-between">
-                  <strong class="mb-1">List group item heading</strong>
-                  <small class="text-body-secondary">Tues</small>
-                </div>
-                <div class="mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
-              </a>
-
-              <a href="#" class="list-group-item list-group-item-action py-3 lh-sm">
-                <div class="d-flex w-100 align-items-center justify-content-between">
-                  <strong class="mb-1">List group item heading</strong>
-                  <small class="text-body-secondary">Mon</small>
-                </div>
-                <div class="mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
-              </a>
-
-              <a href="#" class="list-group-item list-group-item-action py-3 lh-sm" aria-current="true">
-                <div class="d-flex w-100 align-items-center justify-content-between">
-                  <strong class="mb-1">List group item heading</strong>
-                  <small class="text-body-secondary">Wed</small>
-                </div>
-                <div class="mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
-              </a>
-
-              <a href="#" class="list-group-item list-group-item-action py-3 lh-sm">
-                <div class="d-flex w-100 align-items-center justify-content-between">
-                  <strong class="mb-1">List group item heading</strong>
-                  <small class="text-body-secondary">Tues</small>
-                </div>
-                <div class="mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
-              </a>
+              <!-- Adds sample events to the list.
+              TODO replace this with actual event data -->
+              {% include 'sampleEventList.html' %}
               
-              <a href="#" class="list-group-item list-group-item-action py-3 lh-sm">
-                <div class="d-flex w-100 align-items-center justify-content-between">
-                  <strong class="mb-1">List group item heading</strong>
-                  <small class="text-body-secondary">Mon</small>
-                </div>
-                <div class="mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
-              </a>
             </div>
           </div>
         </div>
       </div>
       <!-- Map element-->
-      <div class="col d-flex col-sm-9 d-block" id="map" style="height: 60em; width: 90em;"></div>
+      <div class="col d-flex col-md-8 col-lg-9">
+        <div class="" id="map" style="width: 90em; height: 70em;"></div>
+      </div> 
+
     </div> <!-- Row -->
     <!-- Row 2: event details table -->
     <div class="row">
