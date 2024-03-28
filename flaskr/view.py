@@ -3,29 +3,10 @@ import sqlite3
 
 view = Blueprint('view', __name__)
 
-
-@view.route('/send_data', methods = ['GET'])
-def send_data():
-
-    return jsonify({'events': [{
-    'title':'Kelowna earthquake',
-    'latitude':49.9,
-    'longitude':-119.4,
-    'magnitude':4.67,
-    'URL': "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=1568-01-01&endtime=1568-01-31"
-    },
-    {
-    'title':'Vancouver earthquake',
-    'latitude':49.45,
-    'longitude':-121.34,
-    'magnitude':5.67,
-    'URL': "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=1568-01-01&endtime=1568-01-31"
-    }]})
-
 @view.route('/eventAPI', methods = ['GET'])
 def eventAPI():
-    startTime = request.args.get('starttime', default='2022-02-01', type=str)
-    endTime = request.args.get('endtime', default='2022-03-01', type=str)
+    startTime = request.args.get('starttime', default='2022-03-01', type=str)
+    endTime = request.args.get('endtime', default='2022-04-01', type=str)
     minMagnitude = request.args.get('minmagnitude', default=0, type= float)
     maxMagnitude = request.args.get('maxmagnitude', default=10, type = float)
 
@@ -33,7 +14,7 @@ def eventAPI():
         con = sqlite3.connect("flaskr/main.db")
         cursor = con.cursor()
         params = (startTime, endTime, minMagnitude, maxMagnitude)
-        SQL = "SELECT title, eventTime, magnitude, latitude, longitude, depth, url FROM earthquake WHERE eventTime BETWEEN ? AND ? AND magnitude BETWEEN ? AND ? ORDER BY eventTime DESC;"
+        SQL = "SELECT title, eventTime, magnitude, latitude, longitude, depth, url FROM earthquake WHERE eventTime BETWEEN ? AND ? AND magnitude BETWEEN ? AND ? ORDER BY eventTime ASC;"
         cursor.execute(SQL, params)
         # cursor.execute(SQL)
         rows = cursor.fetchall()
