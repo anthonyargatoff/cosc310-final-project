@@ -1,14 +1,20 @@
 const url = 'http://127.0.0.1:5000/send_data';
 let data = Array();
 
-fetch(url).then(response => response.json()).then(json => {
+async function push_data(item) {
+    await new Promise(resolve => {
+        data.push(item);
+        setTimeout(resolve, 10);
+    });
+}
+
+fetch(url).then(response => response.json()).then(async json => {
     //console.log(JSON.stringify(json));
     for (key in json){
         console.log(key);
-        data.push(json[key]);
+        await push_data(json[key]);
     }
 });
-
 // console.log('This is from mapScript');
 
 
