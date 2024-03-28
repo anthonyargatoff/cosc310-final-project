@@ -26,8 +26,8 @@ def send_data():
 def eventAPI():
     startTime = request.args.get('starttime', default='2022-02-01', type=str)
     endTime = request.args.get('endtime', default='2022-03-01', type=str)
-    minMagnitude = request.args.get('minmagnitude', default=0, type= int)
-    maxMagnitude = request.args.get('maxmagnitude', default=10, type = int)
+    minMagnitude = request.args.get('minmagnitude', default=0, type= float)
+    maxMagnitude = request.args.get('maxmagnitude', default=10, type = float)
 
     try:
         con = sqlite3.connect("flaskr/main.db")
