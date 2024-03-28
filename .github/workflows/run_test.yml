@@ -29,7 +29,7 @@ jobs:
           coverage run -m pytest -v -s
       - name: Test with unittest
         run: |
-          coverage -m unittest -v flaskr.test.APItest`
+          coverage -m unittest -v flaskr.test.APItest
       - name: Generate Coverage Report
         run: |
           coverage report -m
