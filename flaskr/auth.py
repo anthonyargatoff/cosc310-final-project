@@ -12,7 +12,7 @@ def login():
         if request.method == 'POST':
             email = request.form['email']
             pw = request.form['password']
-            # print(email, pw)
+            print(email, pw)
             # need to figure out how to access the remember me checkbox
             # next steps are to incorporate the database and setup credential validation
             # from here redirect to the main page which is search page

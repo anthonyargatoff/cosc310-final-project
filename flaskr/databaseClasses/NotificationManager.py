@@ -6,7 +6,7 @@ class DBNotification():
     """
 
     def __init__(self, dbLocation):
-        self.dbLocation = dbLocation;
+        self.dbLocation = dbLocation
 
     """
     Initialize the class.
@@ -24,17 +24,17 @@ class DBNotification():
             settings    (String):   String encoding magnitude settings ('>5', '<8', '=3', etc.)
         """
         try:
-            con = sqlite3.connect(self.dbLocation);
+            con = sqlite3.connect(self.dbLocation)
             con.execute("PRAGMA foreign_keys = 1")      # enforces foreign keys
             cursor = con.cursor();
-            params = (userid, settings);
-            SQL = "Insert Into notification(userid, attributes) values(?,?)";
-            cursor.execute(SQL, params);
-            con.commit();
-            con.close();
+            params = (userid, settings)
+            SQL = "Insert Into notification(userid, attributes) values(?,?)"
+            cursor.execute(SQL, params)
+            con.commit()
+            con.close()
         except Exception as e:
-            print("transaction failed: ");
-            print(e);
+            print("transaction failed: ")
+            print(e)
 
 
     def getUsersNotifications(self, userid):
@@ -46,15 +46,15 @@ class DBNotification():
         """
         
         try:
-            con = sqlite3.connect(self.dbLocation);
-            cursor = con.cursor();
-            params = (userid,);
-            SQL = "Select notifyid, attributes From notification Where userid = ?";
-            result = cursor.execute(SQL, params);
-            return result.fetchall();
+            con = sqlite3.connect(self.dbLocation)
+            cursor = con.cursor()
+            params = (userid,)
+            SQL = "Select notifyid, attributes From notification Where userid = ?"
+            result = cursor.execute(SQL, params)
+            return result.fetchall()
         except Exception as e:
-            print("transaction failed: ");
-            print(e);
+            print("transaction failed: ")
+            print(e)
 
 
     def deleteNotify(self, notifyid):
@@ -65,17 +65,17 @@ class DBNotification():
             notifyid    (String):   Id of notification to be deleted
         """
         try:
-            con = sqlite3.connect(self.dbLocation);
+            con = sqlite3.connect(self.dbLocation)
             con.execute("PRAGMA foreign_keys = 1")      # enforces foreign keys
-            cursor = con.cursor();
-            params = (notifyid,);
-            SQL = "Delete From notification Where notifyid = ?";
-            cursor.execute(SQL, params);
-            con.commit();
-            con.close();
+            cursor = con.cursor()
+            params = (notifyid,)
+            SQL = "Delete From notification Where notifyid = ?"
+            cursor.execute(SQL, params)
+            con.commit()
+            con.close()
         except Exception as e:
-            print("transaction failed: ");
-            print(e);
+            print("transaction failed: ")
+            print(e)
 
     def modifyNotification(self, notifyid, newAttributes):
         """
@@ -85,15 +85,15 @@ class DBNotification():
             notifyid    (String):   Id of notification to be deleted
         """
         try:
-            con = sqlite3.connect(self.dbLocation);
+            con = sqlite3.connect(self.dbLocation)
             con.execute("PRAGMA foreign_keys = 1");      # enforces foreign keys
             cursor = con.cursor();
-            params = (newAttributes, notifyid);
-            SQL = 'Update notification Set attributes = ? Where notifyid = ? ';
-            cursor.execute(SQL,params);
-            con.commit();
-            con.close();
+            params = (newAttributes, notifyid)
+            SQL = 'Update notification Set attributes = ? Where notifyid = ? '
+            cursor.execute(SQL,params)
+            con.commit()
+            con.close()
         except Exception as e:
-            print("transaction failed: ");
-            print(e);
+            print("transaction failed: ")
+            print(e)
 
