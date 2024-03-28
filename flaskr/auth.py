@@ -25,6 +25,10 @@ def login():
 def admin_page():
     return render_template('Admin.html')
 
-@auth.route('/accountmanagement')
+@auth.route('/account')
 def accountmanager_page():
-    return render_template('accountManagement.html')
+    return render_template('manageAccount.html')
+
+@auth.route('/notifications')
+def nottificationmanager_page():
+    return render_template('manageNotifications.html')
