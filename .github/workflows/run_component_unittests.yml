@@ -26,7 +26,7 @@ jobs:
         continue-on-error: true
       - name: Test with unittest
         run: |
-          coverage run -m unittest discover -v tests.test
+          coverage run -m unittest discover tests.test -p '*_test.py'
       - name: Generate Coverage Report
         run: |
           coverage report -m
