@@ -1,25 +1,43 @@
 const map = createMap();
 let popups;
 
+// Initial document load-in
 document.addEventListener("DOMContentLoaded", async function(){
 
     const url = 'http://127.0.0.1:5000/eventAPI';
     const events = await makeRequest(url);
     popups = addDataPoints(events, map);
     createCard("displayResults", events);
-
 });
 
+/**
+ * Removes all markers from the map.
+ * 
+ * @param {array} popups 
+ */
+function clearMarkers(){
+    popups.forEach(popup => {
+        popup.remove();
+    })
+}
+
+/**
+ * Open the popup when user clicks on card
+ * 
+ * @param {int} key 
+ * @param {float} latitude 
+ * @param {float} longitude 
+ */
 function openPopup(key, latitude, longitude){
     popups[key].openPopup();
     map.setView([latitude, longitude], 5);
 }
 
 /**
+ * Creates the card elements
  * 
- * @param {string} elementId 
- * @param {event} eventObj 
- * @param {int} index 
+ * @param {string} elementId Parent div id
+ * @param {array} eventObj Json event data
  */
 function createCard (elementId, eventObj) {
 
@@ -39,20 +57,26 @@ function createCard (elementId, eventObj) {
         const node = document.getElementById(elementId);
         node.appendChild(newCard);
     })
-    
 }
 
 /**
+ * Is even or not.
  * 
  * @param {int} n 
- * @returns {bool} boolean
+ * @returns {bool} Returns boolean
  */
 function isEven (n){
     return n % 2 == 0;
 }
 
+/**
+ * Makes request to API, returns JSON
+ * 
+ * @param {string} url 
+ * @param {string} getParameters 
+ * @returns {array} Returns json array
+ */
 async function makeRequest (url, getParameters) {
- 
     const response = await fetch(url);
     if (!response){
         throw new Error(`HTTP error: ${response.status}`)
@@ -61,16 +85,27 @@ async function makeRequest (url, getParameters) {
     return data.events;
 }
 
+/**
+ * Create the leaflet map object
+ * 
+ * @returns {L} Returns map object
+ */
 function createMap (){
     const map = L.map('map', {worldCopyJump: true}).setView([0, 0], 3);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 19, attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}).addTo(map);
     return map;
 }
 
+/**
+ * Adds the data points to the leaflet map.
+ * 
+ * @param {array} events Json data array
+ * @param {map} mapObj Leaflet map object 
+ * @returns 
+ */
 function addDataPoints (events, mapObj){
     const popups = [];
-
-    events.forEach((event, index) => {
+    events.forEach((event) => {
 
         const latitude = event.latitude;
         const longitude = event.longitude;
