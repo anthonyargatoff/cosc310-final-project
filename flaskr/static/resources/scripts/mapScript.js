@@ -1,21 +1,65 @@
 const map = createMap();
 let popups;
+const url = 'http://localhost:5000/eventAPI';
+const countUrl = 'http://localhost:5000/eventAPIcount';
 
 // Initial document load-in
 document.addEventListener("DOMContentLoaded", async function(){
 
-    const url = 'http://127.0.0.1:5000/eventAPI';
-    const events = await makeRequest(url);
+    const eventsResponse = await makeRequest(url);
+    const events = eventsResponse.events;
     popups = addDataPoints(events, map);
     createCard("displayResults", events);
 });
+
+
+/**
+ * Populates the map with events from a new query.
+ */
+async function newQuery (){
+
+    // TODO: get the form data from search input
+    // get.data...
+
+    clearMarkers(popups);
+    removeChildElements("displayResults");
+
+    try{
+        const countResponse = await makeRequest("http://localhost:5000/eventAPIcount?latitude=45&longitude=45&radius=4000"); //TODO remove test data
+        const count = countResponse.count;
+        if (count > 1000){
+            alert("Query results too large. Try a smaller query.")
+            throw new Error('Requested query is too large. Try a smaller query.')
+        }
+        else{
+            const eventsResponse = await makeRequest("http://localhost:5000/eventAPI?latitude=45&longitude=45&radius=4000"); // TODO add query string to url
+            const events = eventsResponse.events;
+            popups = addDataPoints(events, map);
+            createCard("displayResults", events);
+        }
+    }
+    catch (e){
+        console.error(e);
+    }
+}
+
+/** Removes all children element from their parent container.
+ * 
+ * @param {string} parentElement 
+ */
+function removeChildElements (parentElement){
+    const parent = document.getElementById("displayResults");
+    while (parent.firstChild){
+        parent.removeChild(parent.firstChild)
+    }
+}
 
 /**
  * Removes all markers from the map.
  * 
  * @param {array} popups 
  */
-function clearMarkers(){
+function clearMarkers(popups){
     popups.forEach(popup => {
         popup.remove();
     })
@@ -76,13 +120,13 @@ function isEven (n){
  * @param {string} getParameters 
  * @returns {array} Returns json array
  */
-async function makeRequest (url, getParameters) {
+async function makeRequest (url) {
     const response = await fetch(url);
     if (!response){
         throw new Error(`HTTP error: ${response.status}`)
     }
     const data = await response.json();
-    return data.events;
+    return data;
 }
 
 /**
