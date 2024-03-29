@@ -5,21 +5,21 @@ import unittest;
 import sys
 import os
 
-sys.path.insert(0, os.path.abspath('..'))
+#sys.path.insert(0, os.path.abspath('..'))
 
-from databaseClasses import NotificationManager as NM
+from flaskr.databaseClasses import NotificationManager as NM
 
 class test_DBManager(unittest.TestCase):
 
     def setUp(self):
-        self.con = sqlite3.connect("testdata/TestNotify.db")
+        self.con = sqlite3.connect("tests/test/testdata/TestNotify.db")
         self.con.execute("PRAGMA foreign_keys = 1")
         self.cursor = self.con.cursor()
         self.cursor.execute("Insert into notification(userid,attributes) values(2,'TestGet')")
         self.cursor.execute("Insert into notification(userid,attributes) values(2,'TestGet2')")
         self.cursor.execute("Insert into notification(userid,attributes) values(1,'TestDelete')")
         self.cursor.execute("Insert into notification(userid,attributes) values(1,'TestNotify')")
-        self.notify = NM.DBNotification("testdata/TestNotify.db")
+        self.notify = NM.DBNotification("tests/test/testdata/TestNotify.db")
         self.con.commit()
 
     def test_a_AddNotify(self):
@@ -54,4 +54,5 @@ class test_DBManager(unittest.TestCase):
         self.con.commit()
         self.con.close()
 
-unittest.main()
+if __name__ == '__main__':
+    unittest.main()

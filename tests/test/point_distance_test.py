@@ -1,4 +1,4 @@
-from ..distanceBetweenPoints.distanceBetweenPoints import coordinateCalculator
+from flaskr.distanceBetweenPoints.distanceBetweenPoints import coordinateCalculator
 import unittest
 import math
 
