@@ -33,7 +33,7 @@ class populateDb:
                 split = line.split(';') # split into array of 7
                 title = split[0]
                 ts = int(split[1]) / 1000 # from unix time ms to seconds
-                time = dt.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
+                time = dt.fromtimestamp(ts).strftime('%Y-%m-\%\d %H:%M:%S')
                 magnitude = split[2]
                 latitude = split[3]
                 longitude = split[4]

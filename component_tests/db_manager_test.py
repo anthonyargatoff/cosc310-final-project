@@ -13,13 +13,13 @@ from flaskr.databaseClasses import DBManager as DBM
 class test_DBManager(unittest.TestCase):
 
     def setUp(self):
-        self.con = sqlite3.connect("tests/test/testdata/TestUser.db")
+        self.con = sqlite3.connect("component_tests/testdata/TestUser.db")
         self.cursor = self.con.cursor()
         self.cursor.execute("Insert into user(email,password) values('AAAA','BBBB')")
         self.cursor.execute("Insert into user(email,password) values('CCCC','DDDD')")
         self.cursor.execute("Insert into user(email,password,adminStatus) values('EEEE','FFFF',1)")
         self.con.commit()
-        self.User = DBM.DBUser("tests/test/testdata/TestUser.db")
+        self.User = DBM.DBUser("component_tests/testdata/TestUser.db")
     
     def test_a_ValidateUser(self):
         self.assertTrue(self.User.validateUser('CCCC','DDDD'))

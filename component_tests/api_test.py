@@ -3,7 +3,7 @@ import json
 from flaskr.earthquakeAPI.EarthquakeApi import EarthquakeApi
 import os
 
-testFileLocation = 'tests/test/testdata/'
+testFileLocation = 'component_tests/testdata/'
 
 class test_Api(unittest.TestCase):
 

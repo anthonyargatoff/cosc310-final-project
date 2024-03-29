@@ -3,8 +3,8 @@ import sqlite3;
 import unittest;
 from flaskr.databaseClasses.populateDatabase import populateDb
 
-testDb = os.path.abspath("tests/test/testdata/test.db")
-testLocation = "tests/test/testdata/"
+testDb = os.path.abspath("component_tests/testdata/test.db")
+testLocation = "component_tests/testdata/"
 
 class Test(unittest.TestCase):
 

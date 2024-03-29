@@ -6,7 +6,7 @@ class test_SQLite(unittest.TestCase):
 
     # create connection and cursor
     def setUp(self):
-        self.con = sqlite3.connect("tests/test/testdata/test.db")
+        self.con = sqlite3.connect("component_tests/testdata/test.db")
         self.cursor = self.con.cursor()
         self.con.commit()
 
