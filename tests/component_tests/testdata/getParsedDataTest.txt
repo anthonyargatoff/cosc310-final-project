@@ -1,0 +1,1 @@
+M 4.9 - Near Moodus, Connecticut;-12685939200000;4.9;41.5;-72.5;None;https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=ushis15680101000000000&format=geojson

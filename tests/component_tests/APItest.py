@@ -1,9 +1,9 @@
 import unittest
 import json
-from  flaskr.earthquakeAPI.EarthquakeApi import EarthquakeApi
+from flaskr.earthquakeAPI.EarthquakeApi import EarthquakeApi
 import os
 
-testFileLocation = 'flaskr/test/testdata/'
+testFileLocation = 'tests/testdata/'
 
 class test_Api(unittest.TestCase):
 
