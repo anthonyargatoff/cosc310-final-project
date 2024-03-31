@@ -11,7 +11,7 @@ class Test(unittest.TestCase):
     def setUp(self):
         self.con = sqlite3.connect(testDb)
         self.cursor = self.con.cursor()
-        self.cursor.execute('DROP TABLE earthquakesTest')
+        #self.cursor.execute('DROP TABLE earthquakesTest')
 
     # Test the populateDatabase.py adding from text file works as expected
     def test_InsertFromTextFile(self):

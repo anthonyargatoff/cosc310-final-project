@@ -19,7 +19,7 @@ class test_DBManager(unittest.TestCase):
         self.cursor.execute("Insert into notification(userid,attributes) values(2,'TestGet2')")
         self.cursor.execute("Insert into notification(userid,attributes) values(1,'TestDelete')")
         self.cursor.execute("Insert into notification(userid,attributes) values(1,'TestNotify')")
-        self.notify = NM.DBNotification("tests/test/testdata/TestNotify.db")
+        self.notify = NM.DBNotification("component_tests/testdata/TestNotify.db")
         self.con.commit()
 
     def test_a_AddNotify(self):

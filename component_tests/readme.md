@@ -1,3 +1,3 @@
-# To run tests
+# To run all component tests
 
-Use command `python3 -m unittest -v flaskr.test.APItest`
+Use command `coverage run -m unittest discover -v component_tests -p '*_test.py`
