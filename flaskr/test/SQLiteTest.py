@@ -34,4 +34,5 @@ class test_SQLite(unittest.TestCase):
     def tearDown(self):
         self.con.close();
 
-unittest.main();
+if __name__ == "__main__": 
+    unittest.main()

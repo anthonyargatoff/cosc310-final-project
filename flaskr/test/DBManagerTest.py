@@ -2,12 +2,7 @@
 # Import package
 import sqlite3;
 import unittest;
-import sys
-import os
-
-sys.path.insert(0, os.path.abspath('..'))
-
-from databaseClasses import DBManager as DBM;
+from flaskr.databaseClasses.DBManager import DBUser;
 
 
 class test_DBManager(unittest.TestCase):
@@ -19,7 +14,7 @@ class test_DBManager(unittest.TestCase):
         self.cursor.execute("Insert into user(email,password) values('CCCC','DDDD')");
         self.cursor.execute("Insert into user(email,password,adminStatus) values('EEEE','FFFF',1)");
         self.con.commit();
-        self.User = DBM.DBUser("testdata/TestUser.db");
+        self.User = DBUser("testdata/TestUser.db");
     
     def test_a_ValidateUser(self):
         self.assertTrue(self.User.validateUser('CCCC','DDDD'));
@@ -53,5 +48,6 @@ class test_DBManager(unittest.TestCase):
         self.con.commit();
         self.con.close();
 
-unittest.main();
+if __name__ == "__main__": 
+    unittest.main()
 
