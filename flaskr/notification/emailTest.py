@@ -9,4 +9,8 @@ body = 'This is a test email from python'
 recipient = 'ryanpybus8596@gmail.com';
 sendEmail.send_email(body,recipient);
 
+body = 'This is a test email from python'
+recipient = 'ryanpybus8596@gmail.com';
+sendEmail.send_email(body,recipient,'alternate subject');
+
 print('Finished')

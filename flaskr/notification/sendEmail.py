@@ -4,7 +4,7 @@ from email.message import EmailMessage
 # Adapted from send_email by Anthony Argatoff
 # https://github.com/anthonyargatoff/furlong_co-op_scraping
 
-def send_email(body:str, recipient:str):
+def send_email(body:str, recipient:str, subject:str = None):
     """
     Args: 
         body (str): message body
@@ -16,7 +16,8 @@ def send_email(body:str, recipient:str):
     # email and app password for the gmail sending the emails.
     sender_email = "quakebot9000@gmail.com";
     password = 'lwdvrqlzofwlgfll';
-    subject = "QuakeQuest Notification";
+    if (subject == None):
+        subject = "QuakeQuest Notification";
 
     msg = EmailMessage()
     msg['Subject'] = subject
