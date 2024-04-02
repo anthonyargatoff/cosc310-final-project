@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request, redirect
+from databaseClasses.DBManager import DBUser
 
 # create blueprint
 auth = Blueprint('auth', __name__)
@@ -20,6 +21,18 @@ def login():
             return redirect('/search')
         
         return render_template('login.html')
+
+
+@auth.route('/signup', methods=['GET', 'POST'])
+def signup():
+    if request.method == 'POST':
+        email = request.form['email']
+        pw = request.form['password']
+        confirmpw = request.form['confirm_password']
+        User = DBUser('main.db')
+        if ((not User.validateUser()) and pw == confirmpw):
+            User.addUser(email, pw, 0)
+
 
 @auth.route('/admin')
 def admin_page():
