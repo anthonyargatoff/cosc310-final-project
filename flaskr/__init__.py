@@ -26,6 +26,7 @@ def create_app(test_config=None):
     from .auth import auth
     from .view import view
     from .notifications_routes import notifications
+
     
     # register blueprints to the app
     app.register_blueprint(auth, url_prefix = '/')
