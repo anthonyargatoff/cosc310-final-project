@@ -26,60 +26,76 @@
         <div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary">
           <span class="fs-4">Search</span>
           <hr>
-          <div class="input-group mb-2">
-            <input type="search" class="form-control rounded" placeholder="Search location" aria-label="Search"
-              aria-describedby="search-addon" />
-            <button type="button" class="btn btn-outline-primary" data-mdb-ripple-init>search</button>
-          </div>
-            <div class="form-check mb-2">
-              <input class="form-check-input" type="radio" name="time" id="date24Hrs" value="24hrs"checked>
-              <label class="form-check-label" for="date24Hrs">
-                Last 24 Hours
-              </label>
+          <form method="POST" action="#">
+            <label class="form-label">Search by location or coordinates</label>
+            <div class="input-group mb-0">
+              <input type="search" class="form-control rounded" placeholder="Search location" aria-label="Search"
+                aria-describedby="search-addon" id="location">
             </div>
-            <div class="form-check mb-2">
-              <input class="form-check-input" type="radio" name="time" id="date7Days">
-              <label class="form-check-label" for="date7Days">
-                Last 7 days
-              </label>
+            <p class="text-center mb-0">or</p>
+            <div class="input-group mb-4">
+              <span class="input-group-text">Latitude</span>
+              <input type="number" class="form-control" id="lat">
+              <span class="input-group-text">longitude</span>
+              <input type="number" class="form-control" id="long">
             </div>
-            <div class="form-check mb-2">
-              <input class="form-check-input" type="radio" name="time" id="date30Days">
-              <label class="form-check-label" for="date30Days">
-                Last 30 days
-              </label>
+            <div class="input-group mb-4">
+              <span class="input-group-text">Radius</span>
+              <input type="number" class="form-select" id="radius" name="radius" list="radiuskm">
+              <datalist id="radiuskm">
+                <option value="1">1km</option>
+                <option value="2">2km</option>
+                <option value="5">5km</option>
+                <option value="10">10km</option>
+                <option value="20">20km</option>
+                <option value="40">40km</option>
+                <option value="60">60km</option>
+                <option value="80">80km</option>
+                <option value="100">100km</option>
+                <option value="250">250km</option>
+              </datalist>
+              <span class="input-group-text">kms</span>
             </div>
-            <span class="fs-6 text-center">Magnitude</span>
+            <label class="form-label">Select Date Range</label>
+            <div class="input-group mb-2">
+              <span class="input-group-text">From: </span>
+              <input type="date" id="minDate" name="minDate" class="form-control">
+            </div>
+            <div class="input-group mb-4">
+              <span class="input-group-text">To: </span>
+              <input type="date" id="maxDate" name="maxDate" class="form-control">
+            </div>
+            <label class="form-label">Magnitude</label>
+            <div class="input-group mb-2 justify-content-center">
+              <input type="number" id="minMag" name="minMag" min="0" max="10" step="0.1" size="4" class="form-control">
+              <span class="input-group-text" id="basic-addon1">Between</span>
+              <input type="number" id="maxMag" name="maxMag" min="0" max="10" step="0.1" size="4" class="form-control">
+            </div>
 
-          <div class="input-group mb-2 justify-content-center">
-            <input type="number" id="minMag" name="minMag" min="0" max="10" step="0.1" size="4">
-            <span class="input-group-text" id="basic-addon1">Between</span>
-            <input type="number" id="maxMag" name="maxMag" min="0" max="10" step="0.1" size="4">
-        </div>
+            <div class="input-group mb-2 justify-content-center">
+              <button type="reset" class="btn btn-outline-secondary" type="button" id="search-addon">Clear</button>
+              <button class="btn btn-outline-primary " type="button" id="search-addon">Search</button>
+            </div>
+          </form>
 
-          <div class="input-group mb-2 justify-content-center">
-            <button class="btn btn-outline-secondary" type="button" id="search-addon">Clear</button>
-            <button class="btn btn-outline-secondary " type="button" id="search-addon">Filter</button>
-
-        </div>
-          
           <!-- Event List Component-->
-          <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-body-tertiary overflow-auto"  style="height: 30em">
+          <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-body-tertiary overflow-auto"
+            style="height: 30em">
             <h2 class="fs-5 fw-semibold" style="margin: 1em; text-align: center;">Seismic Events</h2>
             <div class="list-group list-group-flush border-bottom">
 
               <!-- Adds sample events to the list.
               TODO replace this with actual event data -->
               {% include 'sampleEventList.html' %}
-              
+
             </div>
           </div>
         </div>
       </div>
       <!-- Map element-->
       <div class="col d-flex col-md-8 col-lg-9">
-        <div class="" id="map" style="width: 90em; height: 70em;"></div>
-      </div> 
+        <div class="" id="map" style="width: 90em; height: auto;"></div>
+      </div>
 
     </div> <!-- Row -->
     <!-- Row 2: event details table -->
@@ -106,6 +122,36 @@
     </div>
   </div>
   {% include 'footer.html' %}
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const locationInput = document.getElementById('location');
+      const latInput = document.getElementById('lat');
+      const longInput = document.getElementById('long');
+
+      locationInput.addEventListener('input', function (event) {
+        latInput.setAttribute('disabled', 'disabled');
+        longInput.setAttribute('disabled', 'disabled');
+        if (locationInput.value === '') {
+          latInput.removeAttribute('disabled', 'disabled');
+          longInput.removeAttribute('disabled', 'disabled');
+        }
+      });
+      latInput.addEventListener('input', function (event) {
+        locationInput.setAttribute('disabled', 'disabled');
+        if (latInput.value === '' && longInput.value === '') {
+          locationInput.removeAttribute('disabled', 'disabled');
+        }
+      });
+      longInput.addEventListener('input', function (event) {
+        locationInput.setAttribute('disabled', 'disabled');
+        if (latInput.value === '' && longInput.value === '') {
+          locationInput.removeAttribute('disabled', 'disabled');
+        }
+      });
+    });
+
+  </script>
 </body>
 
 </html>
