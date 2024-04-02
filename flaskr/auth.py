@@ -1,5 +1,4 @@
 from flask import Blueprint, render_template, request, redirect
-from .databaseClasses import DBManager
 
 # create blueprint
 auth = Blueprint('auth', __name__)
@@ -16,9 +15,6 @@ def login():
             # print(email, pw)
             # need to figure out how to access the remember me checkbox
             # next steps are to incorporate the database and setup credential validation
-            x = DBManager.DBUser('main.db')
-            if (x.validateUser(email,pw)):
-                print()
             # from here redirect to the main page which is search page
             # next steps for the redirect would be to include a payload to dynamically display public user data like their username
             return redirect('/search')
