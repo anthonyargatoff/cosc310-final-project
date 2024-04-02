@@ -1,41 +1,32 @@
-const url = 'http://127.0.0.1:5000/send_data';
-let data = Array();
+document.addEventListener("DOMContentLoaded", async function(){
 
-async function push_data(item) {
-    await new Promise(resolve => {
-        data.push(item);
-        setTimeout(resolve, 10);
-    });
-}
+    const url = 'http://127.0.0.1:5000/eventAPI';
 
-fetch(url).then(response => response.json()).then(async json => {
-    //console.log(JSON.stringify(json));
-    for (key in json){
-        console.log(key);
-        await push_data(json[key]);
+    try{
+        const response = await fetch(url);
+        if (!response){
+            throw new Error(`HTTP error! ${response.status}`);
+        }
+
+        const data = await response.json();
+        const events = data.events;
+        const map = L.map('map', {worldCopyJump: true}).setView([0, 0], 3);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 19, attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}).addTo(map);
+
+        events.forEach(event => {
+            const latitude = event.latitude;
+            const longitude = event.longitude;
+            const magnitude = event.magnitude;
+            const title = event.title;
+            const url = event.url;
+            const eventTime = event.eventTime;
+            const depth = event.depth; 
+
+            marker = L.marker([latitude, longitude]).addTo(map);
+            marker.bindPopup("Title: " + title + "<br>Event time: " + eventTime + "<br>Magnitude: " + magnitude + "<br>Latitude: " + latitude + "<br>Longitude: " + longitude + "<br>Depth: " + depth + "<br>URL: <a href='" + url + "' target='_blank'>Event Link</a>");
+        })
+
+    } catch (e){
+        console.error("Error fetching earthquake data: ", e);
     }
 });
-// console.log('This is from mapScript');
-
-
-
-// console.log(Object.values(data));
-// console.log(data[0][0]);
-
-
-const map = L.map('map').setView([49.88, -119.49], 13);
-
-
-
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' }).addTo(map);
-
-var marker = L.marker([49.88, -119.49]).addTo(map);
-
-
-// function fromMapScript() {
-    
-// }
-
-
-
-// fromMapScript();
