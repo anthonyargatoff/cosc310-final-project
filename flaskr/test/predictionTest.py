@@ -1,5 +1,5 @@
-import prediciton
 import unittest
+from flaskr.distanceBetweenPoints.prediction import predictionCalculator
 
 class test_Prediction(unittest.TestCase):
 
@@ -25,12 +25,12 @@ class test_Prediction(unittest.TestCase):
                            {'count': 1, 'latitude': 33.477, 'longitude': -116.5283333}];
         
     def testGetEvents(self):
-        Events = prediciton.predictionCalculator.getEvents('2022-04-20','2022-04-21');
+        Events = predictionCalculator.getEvents('2022-04-20','2022-04-21');
         self.assertEqual(len(Events), 391);
         self.assertEqual(Events[0], {'latitude': 61.6795, 'longitude': -143.2598});
 
     def testGetPredictions(self):
-        preds = prediciton.predictionCalculator.getPredictions(self.testdata);
+        preds = predictionCalculator.getPredictions(self.testdata);
         self.assertEqual(preds,self.expected)
 
     def tearDown(self):

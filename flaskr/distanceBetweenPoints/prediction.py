@@ -1,7 +1,7 @@
 
 import sqlite3
-import distanceBetweenPoints as DBP
-from operator import attrgetter, itemgetter
+from distanceBetweenPoints import coordinateCalculator
+from operator import itemgetter
 
 class predictionCalculator():
 
@@ -48,7 +48,7 @@ class predictionCalculator():
             reference = event;
             count = 0;
             for eachevent in events:
-                if DBP.coordinateCalculator.getDistanceKilometers(reference['latitude'],reference['longitude'],eachevent['latitude'],eachevent['longitude']) < radius:
+                if coordinateCalculator.getDistanceKilometers(reference['latitude'],reference['longitude'],eachevent['latitude'],eachevent['longitude']) < radius:
                     count = count+1;
             processedEvents.append({'latitude': reference['latitude'], 'longitude': reference['longitude'], 'count':count});
 
@@ -57,7 +57,7 @@ class predictionCalculator():
         for processedEvent in sortedarr:
             valid = True;
             for eachevent in output:
-                if DBP.coordinateCalculator.getDistanceKilometers(processedEvent['latitude'],processedEvent['longitude'],eachevent['latitude'],eachevent['longitude']) < radius:
+                if coordinateCalculator.getDistanceKilometers(processedEvent['latitude'],processedEvent['longitude'],eachevent['latitude'],eachevent['longitude']) < radius:
                     valid = False;
             if valid:
                 output.append(processedEvent);
