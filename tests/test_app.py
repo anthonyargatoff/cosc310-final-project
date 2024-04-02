@@ -37,6 +37,13 @@ def test_login_form_redirect(client):
     # then check that redirect is made
     assert response.status_code == 302
 
+# test the redirect to search page after signing up
+def test_signup_redirect(client):
+    form_data = {
+
+    }
+    response = client.post('/signup', data=form_data)
+    assert response.status_code == 302
 
 def test_login_redirect_follow(client):
     form_data = {
