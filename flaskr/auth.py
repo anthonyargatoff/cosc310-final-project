@@ -27,6 +27,7 @@ def admin_page():
 
 @auth.route('/account')
 def accountmanager_page():
+
     return render_template('manageAccount.html')
 
 @auth.route('/notifications')

@@ -1,11 +1,45 @@
 from flask import Blueprint, render_template, redirect, request, jsonify
+import sqlite3
 
 view = Blueprint('view', __name__)
 
+@view.route('/eventAPI', methods = ['GET'])
+def eventAPI():
+    startTime = request.args.get('starttime', default='2022-03-01', type=str)
+    endTime = request.args.get('endtime', default='2022-03-02', type=str)
+    minMagnitude = request.args.get('minmagnitude', default=0, type= float)
+    maxMagnitude = request.args.get('maxmagnitude', default=10, type = float)
 
-@view.route('/send_data', methods = ['GET'])
-def send_data():
-    return jsonify({'some_data': 'Hello World!', 'Kelowna': [49.88, -119.49], 'Vancouver': [49.28, -129.12]})
+    try:
+        con = sqlite3.connect("flaskr/main.db")
+        cursor = con.cursor()
+        params = (startTime, endTime, minMagnitude, maxMagnitude)
+        SQL = "SELECT title, eventTime, magnitude, latitude, longitude, depth, url FROM earthquake WHERE eventTime BETWEEN ? AND ? AND magnitude BETWEEN ? AND ? ORDER BY eventTime ASC;"
+        cursor.execute(SQL, params)
+        # cursor.execute(SQL)
+        rows = cursor.fetchall()
+        con.commit()
+        con.close()
+
+        events = []
+        for row in rows:
+            event = {
+                'title': row[0],
+                'eventTime': row[1],
+                'magnitude': row[2],
+                'latitude': row[3],
+                'longitude': row[4],
+                'depth': row[5], 
+                'url': row[6]
+            }
+            events.append(event)
+
+        response = {'events': events}
+        return jsonify(response)
+        # return startTime + endTime + " " + str(minMagnitude) + " "  + str(maxMagnitude)
+    
+    except Exception as e:
+        return jsonify({'error': str(e)})
 
 @view.route('/search')
 def search():
