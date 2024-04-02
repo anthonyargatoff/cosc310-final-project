@@ -126,3 +126,7 @@ def landing_page():
 @view.route('/about')
 def about_page():
     return render_template('About.html')
+
+@view.route('/account')
+def account_management_page():
+    return render_template('accountManagement.html')

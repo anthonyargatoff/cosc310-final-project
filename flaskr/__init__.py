@@ -39,5 +39,5 @@ def create_app(test_config=None):
     @app.route('/')
     def landing():
         return render_template('index.html')
-
+ 
     return app

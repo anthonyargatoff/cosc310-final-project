@@ -9,7 +9,7 @@ class DBUser():
         Args:
             dbLocation (String): file location of the database
         """
-        self.dbLocation = dbLocation;
+        self.dbLocation = dbLocation
 
 
     def addUser(self, email, password, adminstatus):
@@ -21,17 +21,17 @@ class DBUser():
             password    (String):   password to be stored.
         """
         try:
-            con = sqlite3.connect(self.dbLocation);
-            con.execute("PRAGMA foreign_keys = 1");      # enforces foreign keys
+            con = sqlite3.connect(self.dbLocation)
+            con.execute("PRAGMA foreign_keys = 1")      # enforces foreign keys
             cursor = con.cursor();
             params = (email, password, adminstatus);
-            SQL = "Insert Into user(email,password,adminStatus) values(?,?,?)";
-            cursor.execute(SQL, params);
-            con.commit();
-            con.close();
+            SQL = "Insert Into user(email,password,adminStatus) values(?,?,?)"
+            cursor.execute(SQL, params)
+            con.commit()
+            con.close()
         except Exception as e:
-            print("Operation failed: ");
-            print(e);
+            print("Operation failed: ")
+            print(e)
     
     def deleteUser(self, email):
         """ Delete user tuple based on email
@@ -40,17 +40,17 @@ class DBUser():
             email (String): email of user to be deleted.
         """
         try:
-            con = sqlite3.connect(self.dbLocation);
-            con.execute("PRAGMA foreign_keys = 1");      # enforces foreign keys
-            cursor = con.cursor();
-            params = (email,);
-            SQL = 'Delete From user Where email Like ?';
-            cursor.execute(SQL,params);
-            con.commit();
-            con.close();
+            con = sqlite3.connect(self.dbLocation)
+            con.execute("PRAGMA foreign_keys = 1")      # enforces foreign keys
+            cursor = con.cursor()
+            params = (email,)
+            SQL = 'Delete From user Where email Like ?'
+            cursor.execute(SQL,params)
+            con.commit()
+            con.close()
         except Exception as e:
-            print("Operation failed: ");
-            print(e);
+            print("Operation failed: ")
+            print(e)
 
 
     def modifyUser(self, id, newEmail, newPassword, adminstatus):
@@ -64,17 +64,17 @@ class DBUser():
             adminstatus (Integer):  new admin status (1 for admin, 0 for regular)
         """
         try:
-            con = sqlite3.connect(self.dbLocation);
-            con.execute("PRAGMA foreign_keys = 1");      # enforces foreign keys
-            cursor = con.cursor();
-            params = (newEmail, newPassword, id, adminstatus);
-            SQL = 'Update user Set email = ?, password = ?, adminStatus = ? Where userid = ? ';
-            cursor.execute(SQL,params);
-            con.commit();
-            con.close();
+            con = sqlite3.connect(self.dbLocation)
+            con.execute("PRAGMA foreign_keys = 1")      # enforces foreign keys
+            cursor = con.cursor()
+            params = (newEmail, newPassword, id, adminstatus)
+            SQL = 'Update user Set email = ?, password = ?, adminStatus = ? Where userid = ? '
+            cursor.execute(SQL,params)
+            con.commit()
+            con.close()
         except Exception as e:
-            print("Operation failed: ");
-            print(e);
+            print("Operation failed: ")
+            print(e)
 
     
     def validateUser(self, email,password):
@@ -88,22 +88,22 @@ class DBUser():
             Boolean: True if tuple found, else false
         """
         try:
-            con = sqlite3.connect(self.dbLocation);
-            cursor = con.cursor();
-            params = (email, password);
-            SQL = 'Select email, password From user Where email = ? and password = ?';
-            result = cursor.execute(SQL, params);
-            list = result.fetchall();
-            con.close();
+            con = sqlite3.connect(self.dbLocation)
+            cursor = con.cursor()
+            params = (email, password)
+            SQL = 'Select email, password From user Where email = ? and password = ?'
+            result = cursor.execute(SQL, params)
+            list = result.fetchall()
+            con.close()
             if (len(list)) != 1: 
-                return False;
+                return False
             if (list[0][0] == email and list[0][1] == password):
-                return True;
-            else: return False;
+                return True
+            else: return False
         except Exception as e:
-            print("Operation failed: ");
-            print(e);
-            return False;
+            print("Operation failed: ")
+            print(e)
+            return False
 
     def selectUserId(self, email):
         """ Select a users id by email(username)
@@ -115,16 +115,16 @@ class DBUser():
             List: userid associated with input email, false if email not found
         """
         try:
-            con = sqlite3.connect(self.dbLocation);
-            cursor = con.cursor();
-            params = (email,);
-            SQL = "Select userid From user Where email = ?";
-            result = cursor.execute(SQL,params);
-            return result.fetchone();
+            con = sqlite3.connect(self.dbLocation)
+            cursor = con.cursor()
+            params = (email,)
+            SQL = "Select userid From user Where email = ?"
+            result = cursor.execute(SQL,params)
+            return result.fetchone()
         except Exception as e:
-            print("Operation failed: ");
-            print(e);
-            return False;
+            print("Operation failed: ")
+            print(e)
+            return False
 
     def validateAdmin(self, email, password):
         """Validate if a given user account is an admin
@@ -137,22 +137,22 @@ class DBUser():
             boolean: True if account exists and is an admin, else false.
         """
         try:
-            con = sqlite3.connect(self.dbLocation);
-            cursor = con.cursor();
-            params = (email, password);
-            SQL = 'Select email, password, adminStatus From user Where email = ? and password = ?';
-            result = cursor.execute(SQL, params);
-            list = result.fetchall();
-            con.close();
+            con = sqlite3.connect(self.dbLocation)
+            cursor = con.cursor()
+            params = (email, password)
+            SQL = 'Select email, password, adminStatus From user Where email = ? and password = ?'
+            result = cursor.execute(SQL, params)
+            list = result.fetchall()
+            con.close()
             if (len(list)) != 1: 
-                return False;
+                return False
             if (list[0][0] == email and list[0][1] == password and list[0][2] == 1):
-                return True;
-            else: return False;
+                return True
+            else: return False
         except Exception as e:
-            print("Operation failed: ");
-            print(e);
-            return False;
+            print("Operation failed: ")
+            print(e)
+            return False
 
 
 

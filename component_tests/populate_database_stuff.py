@@ -3,14 +3,15 @@ import sqlite3;
 import unittest;
 from flaskr.databaseClasses.populateDatabase import populateDb
 
-testDb = os.path.abspath("flaskr/test/testdata/test.db")
-testLocation = "flaskr/test/testdata/"
+testDb = os.path.abspath("component_tests/testdata/test.db")
+testLocation = "component_tests/testdata/"
 
 class Test(unittest.TestCase):
 
     def setUp(self):
         self.con = sqlite3.connect(testDb)
         self.cursor = self.con.cursor()
+        #self.cursor.execute('DROP TABLE earthquakesTest')
 
     # Test the populateDatabase.py adding from text file works as expected
     def test_InsertFromTextFile(self):

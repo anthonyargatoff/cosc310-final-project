@@ -1,4 +1,4 @@
-from ..notification.Notification import Notification
+from flaskr.notification.Notification import Notification
 import unittest
 
 class test(unittest.TestCase):

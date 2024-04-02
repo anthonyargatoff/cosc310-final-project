@@ -125,6 +125,8 @@ async function makeRequest (url) {
     if (!response){
         throw new Error(`HTTP error: ${response.status}`)
     }
+});
+
     const data = await response.json();
     return data;
 }

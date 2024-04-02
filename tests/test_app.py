@@ -45,6 +45,17 @@ def test_signup_redirect(client):
     response = client.post('/signup', data=form_data)
     assert response.status_code == 302
 
+def test_login_redirect_follow(client):
+    form_data = {
+        "email":"someone@example.com",
+        "password":"1234"
+    }
+
+    response = client.post('/login', data=form_data, follow_redirects=True)
+    #assert len(response.history) == 1
+    assert response.request.path == '/search'
+
+
 # test if the data being sent to the client side js
 # is the correct data
 def test_data_points_sent(client):

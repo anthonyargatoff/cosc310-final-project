@@ -9,21 +9,27 @@ auth = Blueprint('auth', __name__)
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
     # check for post request
-        if request.method == 'POST':
-            email = request.form['email']
-            pw = request.form['password']
-            # print(email, pw)
-            # need to figure out how to access the remember me checkbox
-            # next steps are to incorporate the database and setup credential validation
-            # from here redirect to the main page which is search page
-            # next steps for the redirect would be to include a payload to dynamically display public user data like their username
-            return redirect('/search')
+    if request.method == 'POST':
+        email = request.form['email']
+        pw = request.form['password']
+        print(email, pw)
+        # need to figure out how to access the remember me checkbox
+        # next steps are to incorporate the database and setup credential validation
+        # from here redirect to the main page which is search page
+        # next steps for the redirect would be to include a payload to dynamically display public user data like their username
+        return redirect('/search')
         
-        return render_template('login.html')
+    return render_template('login.html')
 
 @auth.route('/admin')
 def admin_page():
     return render_template('Admin.html')
+
+@auth.route('/signup', methods =['GET', 'POST'])
+def signup_page():
+     if request.method == 'POST':
+         return redirect('/search')
+     return render_template('Signup.html')
 
 @auth.route('/account')
 def accountmanager_page():
@@ -36,8 +42,6 @@ def signup():
         #add database functionality here  
         return redirect('/search')
      return render_template('Signup.html')
-
-    return render_template('manageAccount.html')
 
 @auth.route('/notifications')
 def nottificationmanager_page():
