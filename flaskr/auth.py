@@ -29,8 +29,10 @@ def admin_page():
 def accountmanager_page():
     return render_template('accountManagement.html')
 
+
 @auth.route('/signup', methods=['GET', 'POST'])
 def signup():
      if request.method == 'POST':
-          return redirect('/search')
+        #add database functionality here  
+        return redirect('/search')
      return render_template('Signup.html')
