@@ -27,12 +27,22 @@
         <div id="createNotification" class="d-flex flex-column justify-content-center text-center d-none">
             <form>
                 <div class="row justify-content-center">
-                    <div class="col-3 mb-2">
+                    <div class="col-3">
                         <label for="location" class="form-label">Location</label>
-                        <input type="text" class="form-control" id="location" name="location" placeholder="Vancouver, British Columbia">
+                        <input type="text" class="form-control" id="location" name="location"
+                            placeholder="Enter a location">
+                    </div>
+                    <span>OR</span>
+                    <div class="col-2">
+                        <label for="lat" class="form-label">Latitude</label>
+                        <input type="number" class="form-control" id="lat">
+                    </div>
+                    <div class="col-2">
+                        <label for="long" class="form-label">Longitude</label>
+                        <input type="number" class="form-control" id="long">
                     </div>
                 </div>
-                <div class="row justify-content-center">
+                <div class="row justify-content-center mt-5">
                     <div class="col-3 mb-3">
                         <label for="radius" class="form-label">Radius</label>
                         <select type="number" class="form-select" id="radius" name="radius">
@@ -51,7 +61,7 @@
                 </div>
                 <div class="mb-3">
                     <span class="fs-6">Magnitude (0-10)</span>
-                    <div class="input-group mb-5 mt-2 d-flex justify-content-center">
+                    <div class="input-group mb-5 d-flex justify-content-center">
                         <input type="number" id="minMag" name="minMag" min="0" max="10" step="0.1" size="4">
                         <span class="input-group-text" id="basic-addon1">Between</span>
                         <input type="number" id="maxMag" name="maxMag" min="0" max="10" step="0.1" size="4">
@@ -95,6 +105,9 @@
             const createNotificationLink = document.getElementById('createButton');
             const viewNotificationDiv = document.getElementById('viewNotification');
             const createNotificationDiv = document.getElementById('createNotification');
+            const locationInput = document.getElementById('location');
+            const latInput = document.getElementById('lat');
+            const longInput = document.getElementById('long');
 
             createNotificationLink.addEventListener('click', function (event) {
                 createNotificationDiv.classList.remove('d-none');
@@ -106,6 +119,26 @@
                 viewNotificationDiv.classList.remove('d-none');
                 if (!createNotificationDiv.classList.contains('d-none')) {
                     createNotificationDiv.classList.add('d-none');
+                }
+            });
+            locationInput.addEventListener('input', function (event) {
+                latInput.setAttribute('disabled', 'disabled');
+                longInput.setAttribute('disabled', 'disabled');
+                if (locationInput.value === '') {
+                    latInput.removeAttribute('disabled', 'disabled');
+                    longInput.removeAttribute('disabled', 'disabled');
+                }
+            });
+            latInput.addEventListener('input', function (event) {
+                locationInput.setAttribute('disabled', 'disabled');
+                if (latInput.value === '' && longInput.value === '') {
+                    locationInput.removeAttribute('disabled', 'disabled');
+                }
+            });
+            longInput.addEventListener('input', function (event) {
+                locationInput.setAttribute('disabled', 'disabled');
+                if (latInput.value === '' && longInput.value === '') {
+                    locationInput.removeAttribute('disabled', 'disabled');
                 }
             });
         });
