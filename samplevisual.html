@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Earthquake Prediction Visualization</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h2>Earthquake Prediction Visualization</h2>
+    <canvas id="earthquakeChart"></canvas>
+    <script>
+        var ctx = document.getElementById('earthquakeChart').getContext('2d');
+        var earthquakeChart = new Chart(ctx, {
+            type: 'bar', // Change the chart type to 'bar'
+            data: {
+                labels: ["Vancouver", "Los Angeles", "Tokyo", "Wellington"], // Add more labels for the X-axis
+                datasets: [{
+                    label: 'Predicted Earthquake Magnitudes',
+                    data: [0.10, 0.15, 0.20, 0.25], // Add more data for the Y-axis
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // TODO: Fetch prediction data and update the chart
+    </script>
+</body>
+</html>
