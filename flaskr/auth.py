@@ -33,6 +33,11 @@ def addNotificaton():
         userID = session.get('userid')  # get user id from session
         sql = "INSERT INTO notifications (location, longitude, latitude, radius, minMagnitude, maxMagnitude, userid) VALUES (%s, %s, %s, %s, %s, %s, %s)"
         #add database functionality here
+        con = sqlite3.connect("flaskr/main.db")
+        cursor = con.cursor()
+        cursor.execute(sql, (location, longitude, latitude, radius, minMagnitude, maxMagnitude, userID))
+        con.commit()
+        con.close()
         return redirect('/notifications')
     return render_template('manageNotifications.html')
 
