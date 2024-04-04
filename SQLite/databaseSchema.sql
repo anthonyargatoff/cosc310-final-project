@@ -20,6 +20,12 @@ CREATE TABLE user (
 create table notification(
     notifyid INTEGER PRIMARY KEY,
     userid Integer,
+    minMagnitude decimal(6, 4),
+    maxMagnitude decimal(6, 4),
+    latitude decimal(9, 6),
+    longitude decimal(9, 6),
+    location varchar(255),
+    radius decimal(10, 6),
     attributes varchar(255),
     Foreign Key (userid) References user(userid)
         On Delete Cascade

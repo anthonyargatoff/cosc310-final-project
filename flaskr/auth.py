@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect
+from flask import Blueprint, render_template, request, redirect, session
 
 # create blueprint
 auth = Blueprint('auth', __name__)
@@ -21,6 +21,21 @@ def login():
         
     return render_template('login.html')
 
+@auth.route('/notifications', methods=['GET','POST'])
+def addNotificaton():
+    if request.method == 'POST':
+        location = request.form.get('location')
+        longitude = request.form.get('longitude')
+        latitude = request.form.get('latitude')
+        radius = request.form.get('radius')
+        minMagnitude = request.form.get('minMagnitude')
+        maxMagnitude = request.form.get('maxMagnitude')
+        userID = session.get('userid')  # get user id from session
+        sql = "INSERT INTO notifications (location, longitude, latitude, radius, minMagnitude, maxMagnitude, userid) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+        #add database functionality here
+        return redirect('/notifications')
+    return render_template('manageNotifications.html')
+
 @auth.route('/admin')
 def admin_page():
     return render_template('Admin.html')
@@ -33,7 +48,7 @@ def signup_page():
 
 @auth.route('/account')
 def accountmanager_page():
-    return render_template('accountManagement.html')
+    return render_template('manageAccount.html')
 
 
 @auth.route('/signup', methods=['GET', 'POST'])
