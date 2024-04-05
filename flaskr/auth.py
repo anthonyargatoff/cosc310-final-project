@@ -1,10 +1,12 @@
-from flask import Blueprint, render_template, request, redirect
-
+from flask import Blueprint, render_template, request, redirect, session
+from .databaseClasses import DBManager as DBM
 # create blueprint
 auth = Blueprint('auth', __name__)
 
-# routes 
+# database setup
+userDB = DBM.DBUser('main.db')
 
+# routes 
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
@@ -27,13 +29,21 @@ def admin_page():
 
 @auth.route('/signup', methods =['GET', 'POST'])
 def signup_page():
-     if request.method == 'POST':
-         return redirect('/search')
-     return render_template('Signup.html')
+    if request.method == 'POST':
+        email = request.form['email']
+        pw = request.form['password']
+        cpw = request.form['confirm_password']
+
+        if hash(pw) != hash(cpw):
+            return render_template('Signup.html')
+        else:
+            userDB.addUser(email, pw, 0)
+            return redirect('/login', code=307)
+    return render_template('Signup.html')
 
 @auth.route('/account')
 def accountmanager_page():
-    return render_template('accountManagement.html')
+    return render_template('manageAccount.html')
 
 
 @auth.route('/signup', methods=['GET', 'POST'])

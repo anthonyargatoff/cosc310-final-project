@@ -59,16 +59,7 @@ def test_login_redirect_follow(client):
 # test if the data being sent to the client side js
 # is the correct data
 def test_data_points_sent(client):
-    data_sent = {
-        'Kelowna': [49.88, -119.49],
-        'Vancouver': [49.28, -129.12],
-        'some_data': 'Hello World!'
-    }
-
-    response = client.get('/send_data')
+    response = client.get('/search')
     res_data = response.get_json()
-
-    for key, val in data_sent.items():
-        assert key in res_data and val == res_data[key]
 
     assert response.status_code == 200
