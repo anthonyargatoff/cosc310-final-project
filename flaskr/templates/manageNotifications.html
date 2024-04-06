@@ -17,8 +17,8 @@
     <div class="d-flex justify-content-center mt-5 mb-5">
         <div class="list-group">
             <h1>Manage Notifications</h1>
-            <a href="#" class="list-group-item list-group-item-action" id="viewButton">View Notifications</a>
-            <a href="#" class="list-group-item list-group-item-action" id="createButton">Create Notification</a>
+            <a href="/viewNotifications" class="list-group-item list-group-item-action" id="viewButton">View Notifications</a>
+            <button class="list-group-item list-group-item-action" id="createButton">Create Notification</button>
         </div>
     </div>
 
@@ -75,30 +75,6 @@
             </form>
         </div>
 
-        <div id="viewNotification" class="d-flex justify-content-center text-center d-none">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">Location</th>
-                        <th scope="col">Radius</th>
-                        <th scope="col">Magnitude Range</th>
-                        <th scope="col">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>San Francisco</td>
-                        <td>50</td>
-                        <td>5.0 - 8.0</td>
-                        <td>
-                            <button class="btn btn-danger">Delete</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
     <script>
         document.addEventListener('DOMContentLoaded', function () {
 
@@ -112,15 +88,6 @@
 
             createNotificationLink.addEventListener('click', function (event) {
                 createNotificationDiv.classList.remove('d-none');
-                if (!viewNotificationDiv.classList.contains('d-none')) {
-                    viewNotificationDiv.classList.add('d-none');
-                }
-            });
-            viewNotificationLink.addEventListener('click', function (event) {
-                viewNotificationDiv.classList.remove('d-none');
-                if (!createNotificationDiv.classList.contains('d-none')) {
-                    createNotificationDiv.classList.add('d-none');
-                }
             });
             locationInput.addEventListener('input', function (event) {
                 latInput.setAttribute('disabled', 'disabled');

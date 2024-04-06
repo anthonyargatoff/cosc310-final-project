@@ -1,10 +1,10 @@
-from flask import Blueprint, render_template, request, redirect, session
+import sqlite3
+from flask import Blueprint, render_template, request, redirect, session, render_template
 
 # create blueprint
 auth = Blueprint('auth', __name__)
 
 # routes 
-
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
@@ -20,26 +20,6 @@ def login():
         return redirect('/search')
         
     return render_template('login.html')
-
-@auth.route('/notifications', methods=['GET','POST'])
-def addNotificaton():
-    if request.method == 'POST':
-        location = request.form.get('location')
-        longitude = request.form.get('longitude')
-        latitude = request.form.get('latitude')
-        radius = request.form.get('radius')
-        minMagnitude = request.form.get('minMagnitude')
-        maxMagnitude = request.form.get('maxMagnitude')
-        userID = session.get('userid')  # get user id from session
-        sql = "INSERT INTO notifications (location, longitude, latitude, radius, minMagnitude, maxMagnitude, userid) VALUES (%s, %s, %s, %s, %s, %s, %s)"
-        #add database functionality here
-        con = sqlite3.connect("flaskr/main.db")
-        cursor = con.cursor()
-        cursor.execute(sql, (location, longitude, latitude, radius, minMagnitude, maxMagnitude, userID))
-        con.commit()
-        con.close()
-        return redirect('/notifications')
-    return render_template('manageNotifications.html')
 
 @auth.route('/admin')
 def admin_page():
