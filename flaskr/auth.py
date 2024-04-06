@@ -1,6 +1,8 @@
 import sqlite3
 from flask import Blueprint, render_template, request, redirect, session, render_template
 
+database = "database.db"
+
 # create blueprint
 auth = Blueprint('auth', __name__)
 
@@ -46,4 +48,31 @@ def signup():
 @auth.route('/notifications')
 def nottificationmanager_page():
     return render_template('manageNotifications.html')
+
+@auth.route('/createNotification', methods=['GET','POST'])
+def nottificationcreator_page():
+    createdNotification = False
+    if request.method == 'POST':
+        location, longitude, latitude, radius, minMagnitude, maxMagnitude = [request.form.get(key) for key in ['location', 'longitude', 'latitude', 'radius', 'minMagnitude', 'maxMagnitude']]
+        #userID = session.get('userid')  # get user id from session
+        message = ""
+        try:
+            sql = "INSERT INTO notification (location, longitude, latitude, radius, minMagnitude, maxMagnitude) VALUES (?, ?, ?, ?, ?, ?)"
+            data = (location, longitude, latitude, radius, minMagnitude, maxMagnitude)
+            con = sqlite3.connect(database)
+            message = con.getconfig()
+            cursor = con.cursor()
+            cursor.execute(sql, data)
+            if cursor.rowcount > 0:
+                createdNotification = True
+                con.commit()
+                con.close()
+        except Exception as e:
+            message += e.__str__()
+        result = ""
+        if (createdNotification):
+            result = "Notification created successfully"
+        else:
+            result = "Failed to create notification - " + message
+    return render_template('createNotification.html',result=result)
 

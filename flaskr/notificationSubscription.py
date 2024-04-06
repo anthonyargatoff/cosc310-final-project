@@ -5,25 +5,27 @@ notifSub = Blueprint('notifSub', __name__)
 database = "database.db"
 
 # create new notification subscriptions
-@notifSub.route('/notifications', methods=['GET','POST'])
-def addNotificaton():
-    if request.method == 'POST':
-        location = request.form.get('location')
-        longitude = request.form.get('longitude')
-        latitude = request.form.get('latitude')
-        radius = request.form.get('radius')
-        minMagnitude = request.form.get('minMagnitude')
-        maxMagnitude = request.form.get('maxMagnitude')
-        userID = session.get('userid')  # get user id from session
-        sql = "INSERT INTO notification (location, longitude, latitude, radius, minMagnitude, maxMagnitude, userid) VALUES (?, ?, ?, ?, ?, ?, ?)"
-        data = (location, longitude, latitude, radius, minMagnitude, maxMagnitude, userID)
-        con = sqlite3.connect(database)
-        cursor = con.cursor()
-        cursor.execute(sql, data)
-        con.commit()
-        con.close()
-        return redirect('/notifications')
-    return render_template('manageNotifications.html')
+# @notifSub.route('/createNotification', methods=['GET','POST'])
+# def addNotificaton():
+#     if request.method == 'POST':
+#         location = request.form.get('location')
+#         longitude = request.form.get('longitude')
+#         latitude = request.form.get('latitude')
+#         radius = request.form.get('radius')
+#         minMagnitude = request.form.get('minMagnitude')
+#         maxMagnitude = request.form.get('maxMagnitude')
+#         userID = session.get('userid')  # get user id from session
+#         try:
+#             sql = "INSERT INTO notification (location, longitude, latitude, radius, minMagnitude, maxMagnitude, userid) VALUES (?, ?, ?, ?, ?, ?, ?)"
+#             data = (location, longitude, latitude, radius, minMagnitude, maxMagnitude, userID)
+#             con = sqlite3.connect(database)
+#             cursor = con.cursor()
+#             cursor.execute(sql, data)
+#             con.commit()
+#             con.close()
+#         except Exception as e:
+#             print(e)
+#     return render_template('/createNotification.html')
 
 # view existing notification subscriptions
 @notifSub.route('/viewNotifications', methods=['GET','POST'])
