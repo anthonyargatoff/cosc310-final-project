@@ -347,7 +347,7 @@ function createSearchCircle(mapObj, lat, lon, radius){
     const circle = L.circle([lat, lon], {
         color: 'green',
         fillColor: '#abd6b7',
-        fillOpacity: 0.23,
+        fillOpacity: 0.5,
         'radius': radius
     }).addTo(mapObj).bindPopup(`Search result:<br>Latitude: ${lat}<br>Longitude: ${lon}<br>Radius: ${radius / 1000}`);
     return circle;
