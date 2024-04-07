@@ -49,7 +49,7 @@ def signup():
 def nottificationmanager_page():
     return render_template('manageNotifications.html')
 
-@auth.route('/createNotification', methods=['GET','POST'])
+@auth.route('/createNotification', methods=['POST'])
 def nottificationcreator_page():
     createdNotification = False
     if request.method == 'POST':
@@ -90,4 +90,5 @@ def viewNotifications():
     return render_template('viewNotifications.html',notifications=notifications)
 
 connect = sqlite3.connect(database)
-connect.execute("CREATE TABLE IF NOT EXISTS notification (id INTEGER PRIMARY KEY AUTOINCREMENT, location TEXT, longitude TEXT, latitude TEXT, radius TEXT, minMagnitude TEXT, maxMagnitude TEXT)")
+connect.execute("CREATE TABLE IF NOT EXISTS notification (notifyid INTEGER PRIMARY KEY AUTOINCREMENT,userid Integer,minMagnitude decimal(6, 4),maxMagnitude decimal(6, 4),latitude decimal(9, 6),longitude decimal(9, 6),location varchar(255),radius decimal(10, 6),Foreign Key (userid) References user(userid) On Delete Cascade On Update Cascade);")
+                

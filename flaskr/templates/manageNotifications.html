@@ -30,22 +30,22 @@
                     <div class="col-3">
                         <label for="location" class="form-label">Location</label>
                         <input type="text" class="form-control" id="location" name="location"
-                            placeholder="Enter a location">
+                            placeholder="Enter a location" required>
                     </div>
                     <span>OR</span>
                     <div class="col-2">
                         <label for="latitude" class="form-label">Latitude</label>
-                        <input type="number" class="form-control" id="latitude" step="0.1">
+                        <input type="number" class="form-control" id="latitude" name="latitude" step="0.1">
                     </div>
                     <div class="col-2">
                         <label for="longitude" class="form-label">Longitude</label>
-                        <input type="number" class="form-control" id="longitude" step="0.1">
+                        <input type="number" class="form-control" id="longitude" name="longitude" step="0.1">
                     </div>
                 </div>
                 <div class="row justify-content-center mt-5">
                     <div class="col-3 mb-3">
                         <label for="radius" class="form-label">Radius</label>
-                        <select type="number" class="form-select" id="radius" name="radius">
+                        <select type="number" class="form-select" id="radius" name="radius" required>
                             <option value="1">1km</option>
                             <option value="2">2km</option>
                             <option value="5">5km</option>
@@ -62,9 +62,9 @@
                 <div class="mb-3">
                     <span class="fs-6">Magnitude (0-10)</span>
                     <div class="input-group mb-5 d-flex justify-content-center">
-                        <input type="number" id="minMagnitude" name="minMagnitude" min="0" max="10" step="0.1" size="4">
+                        <input type="number" id="minMagnitude" name="minMagnitude" min="0" max="10" step="0.1" size="4" required>
                         <span class="input-group-text" id="basic-addon1">Between</span>
-                        <input type="number" id="maxMagnitude" name="maxMagnitude" min="0" max="10" step="0.1" size="4">
+                        <input type="number" id="maxMagnitude" name="maxMagnitude" min="0" max="10" step="0.1" size="4" required>
                     </div>
                 </div>
                 <div class="mb-3">
@@ -85,26 +85,52 @@
             const locationInput = document.getElementById('location');
             const latInput = document.getElementById('latitude');
             const longInput = document.getElementById('longitude');
+            const minMagnitudeInput = document.getElementById('minMagnitude');
+            const maxMagnitudeInput = document.getElementById('maxMagnitude');
+
+            // prevent user from entering minMagnitude greater than maxMagnitude
+            const form = document.querySelector('form');
+            form.addEventListener('submit', function(event) {
+                const minMagnitude = parseFloat(minMagnitudeInput.value);
+                const maxMagnitude = parseFloat(maxMagnitudeInput.value);
+                if (minMagnitude > maxMagnitude) {
+                    event.preventDefault();
+                    alert('Minimum magnitude cannot be greater than maximum magnitude.');
+                }
+            });
 
             createNotificationLink.addEventListener('click', function (event) {
                 createNotificationDiv.classList.remove('d-none');
             });
+            // if location input has input
             locationInput.addEventListener('input', function (event) {
                 latInput.setAttribute('disabled', 'disabled');
                 longInput.setAttribute('disabled', 'disabled');
+                latInput.removeAttribute('required', 'required');
+                longInput.removeAttribute('required', 'required');
                 if (locationInput.value === '') {
                     latInput.removeAttribute('disabled', 'disabled');
                     longInput.removeAttribute('disabled', 'disabled');
                 }
             });
+            // if latInput has input
             latInput.addEventListener('input', function (event) {
                 locationInput.setAttribute('disabled', 'disabled');
+                locationInput.removeAttribute('required', 'required');
+                latInput.setAttribute('required', 'required');
+                longInput.setAttribute('required', 'required');
                 if (latInput.value === '' && longInput.value === '') {
                     locationInput.removeAttribute('disabled', 'disabled');
+                    latInput.setAttribute('required', '');
+                    longInput.setAttribute('required', '');
                 }
             });
+            // if longInput has input
             longInput.addEventListener('input', function (event) {
                 locationInput.setAttribute('disabled', 'disabled');
+                locationInput.removeAttribute('required', 'required');
+                latInput.setAttribute('required', 'required');
+                longInput.setAttribute('required', 'required');
                 if (latInput.value === '' && longInput.value === '') {
                     locationInput.removeAttribute('disabled', 'disabled');
                 }

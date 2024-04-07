@@ -13,10 +13,7 @@
     <!-- Navbar Component -->
     {% include 'navbar.html' %}
     <a href="/notifications" class="btn btn-primary" style="margin-left: 10em; margin-top: 5em;">Back</a>
-    <!-- Notification Management Panel-->
-    
     <script>
-        
         document.addEventListener("DOMContentLoaded", function() {
         let notifications = '{{ notifications }}';
         notifications = notifications.replace('[(', '');
@@ -38,7 +35,6 @@
             }
             table.appendChild(document.createElement('td')).innerHTML = deleteButton;
         }
-            
         });
 
     </script>

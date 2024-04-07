@@ -14,8 +14,15 @@
     {% include 'navbar.html' %}
     <a href="/notifications" class="btn btn-primary" style="margin-left: 10em; margin-top: 5em;">Back</a>
 
-    <p>{{ result }}<p>
-
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="alert alert-primary text-center" role="alert">
+                    {{ result }}
+                </div>
+            </div>
+        </div>
+    </div>
     
     
     {% include 'footer.html' %}

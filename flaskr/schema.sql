@@ -21,7 +21,7 @@ CREATE TABLE user (
 );
 
 create table notification (
-    notifyid INTEGER PRIMARY KEY,
+    notifyid INTEGER PRIMARY KEY AUTOINCREMENT,
     userid Integer,
     minMagnitude decimal(6, 4),
     maxMagnitude decimal(6, 4),
@@ -29,12 +29,11 @@ create table notification (
     longitude decimal(9, 6),
     location varchar(255),
     radius decimal(10, 6),
-    attributes varchar(255),
     Foreign Key (userid) References user(userid)
         On Delete Cascade
         On Update Cascade
 );
 
 INSERT INTO user (email, adminStatus, password) VALUES ('test@hotmail.com', 1, 'test');
-INSERT INTO notification (userid, minMagnitude, maxMagnitude, latitude, longitude, location, radius, attributes) VALUES (1, 0, 10, 0, 0, 'test', 0, 'test');
+INSERT INTO notification (userid, minMagnitude, maxMagnitude, latitude, longitude, location, radius, attributes) VALUES (0, 1, 10, 0, 0, 'testland', 50);
 INSERT INTO earthquake (title, eventTime, magnitude, latitude, longitude, depth, url) VALUES ('test', '2020-01-01', 0, 0, 0, 0, 'test');
