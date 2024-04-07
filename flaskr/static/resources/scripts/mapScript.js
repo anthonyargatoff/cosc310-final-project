@@ -2,10 +2,12 @@ const [map, layerControl] = createMap();
 let popups;
 let predictions;
 let earthquakeLayer;
+let userCircle;
 const url = 'https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&';
 const countUrl = 'https://earthquake.usgs.gov/fdsnws/event/1/count?format=geojson&';
 const predictionUrl = 'http://localhost:5000/testpredictiondata'
-
+const geocodeURL = 'https://geocode.maps.co/search?q=';
+const geocodeAPIKey = '6612fe31db408262351014htr8789af';
 
 // Initial document load-in
 document.addEventListener("DOMContentLoaded", async function(){
@@ -25,9 +27,11 @@ document.addEventListener("DOMContentLoaded", async function(){
 
 // When user searches for new data
 const submit = document.getElementById("search");
-submit.addEventListener('click', function(e){
-    const latitude = document.getElementById('lat').value;
-    const longitude = document.getElementById('long').value;
+submit.addEventListener('click', async function(e,) {
+    if (userCircle) userCircle.remove();
+    const address = document.getElementById('location').value;
+    let latitude = document.getElementById('lat').value;
+    let longitude = document.getElementById('long').value;
     const radius = document.getElementById('radius').value;
     const minMagnitude = document.getElementById('minMag').value;
     const maxMagnitude = document.getElementById('maxMag').value;
@@ -48,10 +52,17 @@ submit.addEventListener('click', function(e){
     if (maxMagnitude){
         queryString += `maxmagnitude=${maxMagnitude}&`
     }
-    if (latitude){
+    if (address){
+        const addressString = convertAddress(address);
+        const geocodeString = geocodeURL + addressString + '&api_key=' + geocodeAPIKey;
+        const geocode = await makeRequest(geocodeString);
+        latitude = geocode[0].lat;
+        longitude = geocode[0].lon;
         queryString += `latitude=${latitude}&`;
+        queryString += `longitude=${longitude}&`;
     }
-    if (longitude){
+    else if (latitude && longitude){
+        queryString += `latitude=${latitude}&`;
         queryString += `longitude=${longitude}&`;
     }
     if (radius){
@@ -61,6 +72,10 @@ submit.addEventListener('click', function(e){
         queryString = queryString.slice(0, -1);
     }
 
+    if (radius && (address || (latitude && longitude))){
+        userCircle = createSearchCircle(map, latitude, longitude, radius * 1000);
+        userCircle.openPopup()
+    }
     newQuery (queryString);
 })
 
@@ -321,4 +336,19 @@ function getDefaultDate(){
     const tomorrowYear = tomorrow.getFullYear();
 
     return [`${year}-${month}-${day}`, `${tomorrowYear}-${tomorrowMonth}-${tomorrowDay}`]
+}
+
+function convertAddress(address){
+    const parts = address.split(/[ ,]+/);
+    return parts.join('+');
+}
+
+function createSearchCircle(mapObj, lat, lon, radius){
+    const circle = L.circle([lat, lon], {
+        color: 'green',
+        fillColor: '#abd6b7',
+        fillOpacity: 0.23,
+        'radius': radius
+    }).addTo(mapObj).bindPopup(`Search result:<br>Latitude: ${lat}<br>Longitude: ${lon}<br>Radius: ${radius / 1000}`);
+    return circle;
 }
