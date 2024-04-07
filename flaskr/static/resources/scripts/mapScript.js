@@ -1,6 +1,7 @@
-const map = createMap();
+const [map, layerControl] = createMap();
 let popups;
 let predictions;
+let earthquakeLayer;
 const url = 'https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&';
 const countUrl = 'https://earthquake.usgs.gov/fdsnws/event/1/count?format=geojson&';
 const predictionUrl = 'http://localhost:5000/testpredictiondata'
@@ -15,8 +16,11 @@ document.addEventListener("DOMContentLoaded", async function(){
     const queryString = url + `starttime=${getDefaultDate()[0]}&endtime=${getDefaultDate()[1]}`
     const eventsResponse = await makeRequest(queryString);
     const events = eventsResponse.features;
-    popups = addDataPoints(events, map);
+    [popups, earthquakeLayer] = addDataPoints(events, map, layerControl);
     createCardEvents("displayResults", events);
+    const predictionResponse = await makeRequest(predictionUrl);
+    const prediction = predictionResponse;
+    predictionCircles(prediction, map, layerControl);
 });
 
 // When user searches for new data
@@ -56,17 +60,10 @@ submit.addEventListener('click', function(e){
     if (queryString.endsWith('&')){
         queryString = queryString.slice(0, -1);
     }
-    // console.log(queryString);
 
     newQuery (queryString);
 })
 
-// User views predictions data
-const prediction = document.getElementById("test");
-prediction.addEventListener('click', function(e){
-    e.preventDefault();
-    predictionQuery(predictionUrl);
-})
 
 /** Populates the map with events from a new query.
  * 
@@ -74,8 +71,6 @@ prediction.addEventListener('click', function(e){
  */
 async function newQuery (queryString){
 
-    clearMarkers(popups);
-    clearMarkers(predictions);
     removeChildElements("displayResults");
     let urlQuery;
     let countQuery;
@@ -99,9 +94,10 @@ async function newQuery (queryString){
             alert("No results");
         }
         else{
+            earthquakeLayer.clearLayers();
             const eventsResponse = await makeRequest(urlQuery);
             const events = eventsResponse.features;
-            popups = addDataPoints(events, map);
+            [popups, earthquakeLayer] = editLayer(events, earthquakeLayer);
             createCardEvents("displayResults", events);
         }
     }
@@ -110,27 +106,13 @@ async function newQuery (queryString){
     }
 }
 
-/** Displays the prediction data from the endpoint
- * 
- * @param {string} url 
- */
-async function predictionQuery(url){
-    clearMarkers(predictions);
-    clearMarkers(popups);
-    removeChildElements("displayResults");
-
-    const predictionResponse = await makeRequest(url);
-    const predictionEvents = predictionResponse;
-    predictions = predictionCircles(predictionEvents, map);
-    createCardPredictions("displayResults", predictionEvents);
-}
 
 /** Creates prediction circles on the map given prediction object
  * 
  * @param {object} predictionObject JSON object with lat, long, rank, and description fields
  * @returns {array} Returns array of prediction objects (circles on map) 
  */
-function predictionCircles(predictionObject, map){
+function predictionCircles(predictionObject, map, layerControl){
     let predictionArray = [];
     predictionObject.forEach(event =>{
         const circle = L.circle([event.latitude, event.longitude],{
@@ -138,11 +120,11 @@ function predictionCircles(predictionObject, map){
             'fillColor': '#f03',
             'fillOpacity': 0.5,
             'radius': 500000
-        }).addTo(map);
+        }).bindPopup(`Rank: ${event.rank}<br>Description: ${event.description}`);
         predictionArray.push(circle);
-        circle.bindPopup(`Rank: ${event.rank}<br>Description: ${event.description}`);
-
     })
+    const prediction = L.layerGroup(predictionArray);
+    layerControl.addOverlay(prediction, "Predictions");
     return predictionArray
 }
 
@@ -154,19 +136,6 @@ function removeChildElements (parentElement){
     const parent = document.getElementById(parentElement);
     while (parent.firstChild){
         parent.removeChild(parent.firstChild)
-    }
-}
-
-/**
- * Removes all markers from the map if the array exists.
- * 
- * @param {array} 
- */
-function clearMarkers(array){
-    if (array){
-        array.forEach(item => {
-            item.remove();
-        })
     }
 }
 
@@ -216,28 +185,6 @@ function createCardEvents (elementId, eventObj) {
     })
 }
 
-/** Creates cards for the prediction data
- * 
- * @param {string} elementId Parent element in DOM
- * @param {object} eventObj Json object from endpoint
- */
-function createCardPredictions (elementId,  eventObj){
-    eventObj.forEach((event, index) => {
-        const newCard = document.createElement("button");
-        newCard.setAttribute("onclick", `openPopup(${index}, ${event.latitude}, ${event.longitude})`);
-        newCard.id = index;
-        newCard.className = "list-group-item list-group-item-action py-3 lh-sm";
-        newCard.setAttribute("aria-current", "true");
-        newCard.innerHTML = `<div class="d-flex w-100 align-items-center justify-content-between">
-        <strong class="mb-1">${event.rank}</strong>
-        <small></small>
-        </div>
-        <div class="mb-1 small">${event.description}</div>`;
-
-        const node = document.getElementById(elementId);
-        node.appendChild(newCard);
-    })
-}
 
 /**Given a timestamp, converts to a UTC formatted string
  * 
@@ -247,16 +194,6 @@ function createCardPredictions (elementId,  eventObj){
 function timestampToDate(timestamp){
     const date = new Date(timestamp);
     return date.toUTCString();
-}
-
-/**
- * Is even or not.
- * 
- * @param {int} n 
- * @returns {bool} Returns boolean
- */
-function isEven (n){
-    return n % 2 == 0;
 }
 
 /**
@@ -278,14 +215,35 @@ async function makeRequest (url) {
 }
 
 /**
- * Create the leaflet map object
+ * Create the leaflet map object and layer-control object
  * 
- * @returns {L} Returns map object
+ * @returns {array} Returns map object and layerc-ontrol object
  */
 function createMap (){
-    const map = L.map('map', {worldCopyJump: true}).setView([0, 0], 3);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 19, attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}).addTo(map);
-    return map;
+    const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19, 
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    });
+    const topographic = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: 'Map data: © OpenStreetMap contributors, SRTM | Map style: © OpenTopoMap (CC-BY-SA)'
+    });
+    const satellite = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',{
+        maxZoom: 20,
+        subdomains:['mt0','mt1','mt2','mt3']
+    });
+    const map = L.map('map', {
+        worldCopyJump: true,
+        layers: [osm]
+    }).setView([0, 0], 3);
+    const baseMaps = {
+        "OpenStreet": osm,
+        "OpenTopoMap": topographic,
+        "Google Satellite": satellite
+    }
+    const layerControl = L.control.layers(baseMaps).addTo(map);
+    
+    return [map, layerControl];
 }
 
 /**
@@ -293,9 +251,10 @@ function createMap (){
  * 
  * @param {array} events Json data array
  * @param {map} mapObj Leaflet map object 
- * @returns 
+ * @param {layerControl} layerControl The leaflet layer control object
+ * @returns {array} Returns popup array and layer object
  */
-function addDataPoints (events, mapObj){
+function addDataPoints (events, mapObj, layerControl){
     const popups = [];
     events.forEach((event) => {
 
@@ -309,14 +268,44 @@ function addDataPoints (events, mapObj){
 
         const dateTime = timestampToDate(unixTime);
 
-        const marker = L.marker([latitude, longitude]).addTo(mapObj);
-        const popup = marker.bindPopup("Title: " + title + "<br>Event time: " + dateTime + "<br>Magnitude: " + magnitude + "<br>Latitude: " + latitude + "<br>Longitude: " + longitude + "<br>Depth: " + depth + "<br>URL: <a href='" + url + "' target='_blank'>Event Link</a>");
+        const popup = L.marker([latitude, longitude]).bindPopup("Title: " + title + "<br>Event time: " + dateTime + "<br>Magnitude: " + magnitude + "<br>Latitude: " + latitude + "<br>Longitude: " + longitude + "<br>Depth: " + depth + "<br>URL: <a href='" + url + "' target='_blank'>Event Link</a>");
         popups.push(popup);
     })
-    return popups;
+    const earthquakes = L.layerGroup(popups).addTo(mapObj);
+    layerControl.addOverlay(earthquakes, "Earthquakes");
+    return [popups, earthquakes];
 }
 
-/**
+/** Edits the existing layer with new data points
+ * 
+ * @param {JSON} events Json object from API
+ * @param {layer} earthquakeLayer Leaflet layer object
+ * @returns {array} Returns popup array and leaflet layer
+ */
+function editLayer(events, earthquakeLayer){
+    const popups = [];
+    events.forEach((event) => {
+
+        const latitude = event.geometry.coordinates[1];
+        const longitude = event.geometry.coordinates[0];
+        const magnitude = event.properties.mag;
+        const title = event.properties.title;
+        const url = event.properties.url;
+        const unixTime = event.properties.time;
+        const depth = event.geometry.coordinates[2]; 
+
+        const dateTime = timestampToDate(unixTime);
+
+        const popup = L.marker([latitude, longitude]).bindPopup("Title: " + title + "<br>Event time: " + dateTime + "<br>Magnitude: " + magnitude + "<br>Latitude: " + latitude + "<br>Longitude: " + longitude + "<br>Depth: " + depth + "<br>URL: <a href='" + url + "' target='_blank'>Event Link</a>");
+        popups.push(popup);
+    })
+    const layerGroup = L.layerGroup(popups);
+    earthquakeLayer.addLayer(layerGroup);
+    // layerControl.addOverlay(earthquakes, "Earthquakes");
+    return [popups, earthquakeLayer];
+}
+
+/** Gets todays date and tomorrows date. Used for empty queries.
  * 
  * @returns Date array of todays date and tomorrows date, used for default view on search load.
  */
@@ -333,5 +322,3 @@ function getDefaultDate(){
 
     return [`${year}-${month}-${day}`, `${tomorrowYear}-${tomorrowMonth}-${tomorrowDay}`]
 }
-
-console.log(getDefaultDate());
