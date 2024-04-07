@@ -321,11 +321,17 @@ function addDataPoints (events, mapObj){
  * @returns Date array of todays date and tomorrows date, used for default view on search load.
  */
 function getDefaultDate(){
-    const date = new Date();
-    const day = String(date.getDay()).padStart(2, '0');
-    const month = String((date.getMonth() + 1)).padStart(2, '0');
-    const year = date.getFullYear();
-    const nextDay = String(date.getDay() + 1).padStart(2, '0');
+    const today = new Date();
+    const day = String(today.getDate()).padStart(2, '0');
+    const month = String((today.getMonth() + 1)).padStart(2, '0');
+    const year = today.getFullYear();
 
-    return [`${year}-${month}-${day}`, `${year}-${month}-${nextDay}`]
+    const tomorrow = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
+    const tomorrowDay = String(tomorrow.getDate()).padStart(2, '0');
+    const tomorrowMonth = String(tomorrow.getMonth() + 1).padStart(2, '0');
+    const tomorrowYear = tomorrow.getFullYear();
+
+    return [`${year}-${month}-${day}`, `${tomorrowYear}-${tomorrowMonth}-${tomorrowDay}`]
 }
+
+console.log(getDefaultDate());
