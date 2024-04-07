@@ -1,5 +1,5 @@
 import sqlite3
-from flask import Blueprint, render_template, request, redirect, session, render_template
+from flask import Blueprint, render_template, request, redirect, session
 
 database = "database.db"
 
@@ -60,7 +60,6 @@ def nottificationcreator_page():
             sql = "INSERT INTO notification (location, longitude, latitude, radius, minMagnitude, maxMagnitude) VALUES (?, ?, ?, ?, ?, ?)"
             data = (location, longitude, latitude, radius, minMagnitude, maxMagnitude)
             con = sqlite3.connect(database)
-            message = con.getconfig()
             cursor = con.cursor()
             cursor.execute(sql, data)
             if cursor.rowcount > 0:
@@ -76,3 +75,19 @@ def nottificationcreator_page():
             result = "Failed to create notification - " + message
     return render_template('createNotification.html',result=result)
 
+@auth.route('/viewNotifications', methods=['GET','POST'])
+def viewNotifications():
+    notifications = []
+    # userID = session.get('userid')  # get user id from session 
+    sql = "SELECT location, longitude, latitude, radius, minMagnitude, maxMagnitude FROM notification" # WHERE userid = %s"
+    con = sqlite3.connect(database)
+    cursor = con.cursor()
+    cursor.execute(sql)
+    notifications = cursor.fetchall()
+    con.close()
+    if notifications == []: #if notifications is empty
+        notifications = "No notifications found"
+    return render_template('viewNotifications.html',notifications=notifications)
+
+connect = sqlite3.connect(database)
+connect.execute("CREATE TABLE IF NOT EXISTS notification (id INTEGER PRIMARY KEY AUTOINCREMENT, location TEXT, longitude TEXT, latitude TEXT, radius TEXT, minMagnitude TEXT, maxMagnitude TEXT)")

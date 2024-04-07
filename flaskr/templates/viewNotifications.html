@@ -14,28 +14,49 @@
     {% include 'navbar.html' %}
     <a href="/notifications" class="btn btn-primary" style="margin-left: 10em; margin-top: 5em;">Back</a>
     <!-- Notification Management Panel-->
-    <h1>{{ notifications }}</h1>
+    
+    <script>
+        
+        document.addEventListener("DOMContentLoaded", function() {
+        let notifications = '{{ notifications }}';
+        notifications = notifications.replace('[(', '');
+        notifications = notifications.replace(')]', '');
+        notifications = notifications.split('), (');
 
+        // Get a reference to the table
+        var table = document.getElementById("tableBody");
+        var deleteButton = '<button class="btn btn-danger">Delete</button>';
+        // for each row of data
+        for (var i = 0; i < notifications.length; i++) {
+            var notification = notifications[i].split(', ');
+            table.appendChild(document.createElement('tr'));
+            // each cell in the row
+            for (var j = 0; j < notification.length; j++) {
+                var cell = document.createElement('td');
+                cell.innerHTML = notification[j];
+                table.appendChild(cell);
+            }
+            table.appendChild(document.createElement('td')).innerHTML = deleteButton;
+        }
+            
+        });
+
+    </script>
     <div class="container-sm">
         <div id="viewNotification" class="d-flex justify-content-center text-center">
             <table class="table">
                 <thead>
                     <tr>
                         <th scope="col">Location</th>
+                        <th scope="col">Longitude</th>
+                        <th scope="col">Latitude</th>
                         <th scope="col">Radius</th>
-                        <th scope="col">Magnitude Range</th>
+                        <th scope="col">Magnitude Minimum</th>
+                        <th scope="col">Magnitude Maximum</th>
                         <th scope="col">Actions</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>San Francisco</td>
-                        <td>50</td>
-                        <td>5.0 - 8.0</td>
-                        <td>
-                            <button class="btn btn-danger">Delete</button>
-                        </td>
-                    </tr>
+                <tbody id="tableBody">
                 </tbody>
             </table>
         </div>
