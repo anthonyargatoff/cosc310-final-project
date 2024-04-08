@@ -1,4 +1,4 @@
-import sqlite3
+import sqlite3, json
 from flask import Blueprint, render_template, request, redirect, session
 
 database = "database.db"
@@ -78,6 +78,7 @@ def nottificationcreator_page():
 @auth.route('/viewNotifications', methods=['GET','POST'])
 def viewNotifications():
     notifications = []
+    # Currently shows all notifications in database. Once sessions is working, need to filter by user id
     # userID = session.get('userid')  # get user id from session 
     sql = "SELECT location, longitude, latitude, radius, minMagnitude, maxMagnitude FROM notification" # WHERE userid = %s"
     con = sqlite3.connect(database)
@@ -87,7 +88,7 @@ def viewNotifications():
     con.close()
     if notifications == []: #if notifications is empty
         notifications = "No notifications found"
-    return render_template('viewNotifications.html',notifications=notifications)
+    return render_template('viewNotifications.html',notifications=notifications,notifJSON=json.dumps(notifications))
 
 connect = sqlite3.connect(database)
 connect.execute("CREATE TABLE IF NOT EXISTS notification (notifyid INTEGER PRIMARY KEY AUTOINCREMENT,userid Integer,minMagnitude decimal(6, 4),maxMagnitude decimal(6, 4),latitude decimal(9, 6),longitude decimal(9, 6),location varchar(255),radius decimal(10, 6),Foreign Key (userid) References user(userid) On Delete Cascade On Update Cascade);")
