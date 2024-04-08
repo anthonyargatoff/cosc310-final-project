@@ -1,5 +1,6 @@
-import sqlite3, json
+import sqlite3, json, sys
 from flask import Blueprint, render_template, request, redirect, session
+sys.path.insert(0, 'flaskr')
 from databaseClasses.DBManager import DBUser
 
 database = "database.db"
@@ -54,7 +55,7 @@ def nottificationmanager_page():
 def adminViewUsers_page():
     users = ""
     error = ""
-    User = DBUser('main.db')
+    User = DBUser(database)
     users = User.listUsers()
     if users == False:
         error = "Failed to retrieve users"
@@ -101,6 +102,7 @@ def viewNotifications():
         notifications = "No notifications found"
     return render_template('viewNotifications.html',notifications=notifications,notifJSON=json.dumps(notifications))
 
+# cant access tables in database, so this is a temporary fix
 connect = sqlite3.connect(database)
 connect.execute("CREATE TABLE IF NOT EXISTS notification (notifyid INTEGER PRIMARY KEY AUTOINCREMENT,userid Integer,minMagnitude decimal(6, 4),maxMagnitude decimal(6, 4),latitude decimal(9, 6),longitude decimal(9, 6),location varchar(255),radius decimal(10, 6),Foreign Key (userid) References user(userid) On Delete Cascade On Update Cascade);")
 connect.execute("CREATE TABLE IF NOT EXISTS user (userid INTEGER PRIMARY KEY AUTOINCREMENT, email Varchar(100) Unique, adminStatus Integer, password Varchar(100));")   

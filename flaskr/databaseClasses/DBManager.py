@@ -154,7 +154,7 @@ class DBUser():
             print(e)
             return False
 
-    def listUsers():
+    def listUsers(self):
         """ Return a list of all users in the table
 
         Args:
@@ -166,9 +166,9 @@ class DBUser():
         try:
             con = sqlite3.connect(self.dbLocation)
             cursor = con.cursor()
-            SQL = "Select userid, email, adminStatus From user"
-            result = cursor.execute(SQL,params)
-            return result.fetchone()
+            SQL = "SELECT userid, email, adminStatus FROM user"
+            result = cursor.execute(SQL)
+            return result.fetchall()
         except Exception as e:
             print("Operation failed: ")
             print(e)
