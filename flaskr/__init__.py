@@ -13,7 +13,7 @@ def create_app(test_config=None):
         DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
     )
 
-    # initialize scheduler
+    # initialize scheduler. Check for sending notifications every 5 mins (300 seconds)
     scheduler = APScheduler()
     scheduler.api_enabled = True
     scheduler.init_app(app)
