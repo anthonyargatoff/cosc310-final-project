@@ -1,15 +1,4 @@
 
-CREATE TABLE earthquake (
-    earthquakeid INTEGER PRIMARY KEY,
-    title VARCHAR(50),
-    eventTime datetime,
-    magnitude decimal (6, 4),
-    latitude decimal (9, 6),
-    longitude decimal (9, 6),
-    depth decimal (10,6),
-    url varchar(255)
-);
-
 CREATE TABLE user (
     userid INTEGER PRIMARY KEY,
     email Varchar(100) Unique,
@@ -28,6 +17,7 @@ create table notification(
 
 Insert into user(userid, email,adminStatus,password) values(1,'ryanpybus8596@gmail.com',0,'passw');
 Insert into notification(userid,attributes) values(1,'magnitude:0-10;area:49.2827,123.1207,10000');
--- Insert into notification(userid,attributes) values(1,'')
--- Insert into notification(userid,attributes) values(1,'')
+
+INSERT INTO user (email, adminStatus, password) VALUES ('test@hotmail.com', 1, 'test');
+INSERT INTO notification (userid, attributes) VALUES (2, 'magnitude:1-10;area:0,0,50');
 
