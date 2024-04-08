@@ -88,8 +88,9 @@ class predictionCalculator():
                 if coordinateCalculator.getDistanceKilometers(processedEvent['latitude'],processedEvent['longitude'],eachevent['latitude'],eachevent['longitude']) < radius:
                     valid = False;
             if valid:
+                desc = 'Based on ' + str(processedEvent['count']) + ' events in this area'
                 finalEvent = {'latitude': processedEvent['latitude'], 'longitude': processedEvent['longitude'], 
-                              'count':processedEvent['count'], 'rank': (len(output)+1), 'description': 'Placeholder desc'}
+                              'count':processedEvent['count'], 'rank': (len(output)+1), 'description': desc}
                 output.append(finalEvent);
             if len(output) > 9:
                 return output;
