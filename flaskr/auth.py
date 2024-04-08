@@ -1,5 +1,6 @@
 import sqlite3, json
 from flask import Blueprint, render_template, request, redirect, session
+from databaseClasses.DBManager import DBUser
 
 database = "database.db"
 
@@ -49,6 +50,16 @@ def signup():
 def nottificationmanager_page():
     return render_template('manageNotifications.html')
 
+@auth.route('/adminViewUsers')
+def adminViewUsers_page():
+    users = ""
+    error = ""
+    User = DBUser('main.db')
+    users = User.listUsers()
+    if users == False:
+        error = "Failed to retrieve users"
+    return render_template('adminViewUsers.html',users=users,error=error)
+
 @auth.route('/createNotification', methods=['POST'])
 def nottificationcreator_page():
     createdNotification = False
@@ -92,4 +103,5 @@ def viewNotifications():
 
 connect = sqlite3.connect(database)
 connect.execute("CREATE TABLE IF NOT EXISTS notification (notifyid INTEGER PRIMARY KEY AUTOINCREMENT,userid Integer,minMagnitude decimal(6, 4),maxMagnitude decimal(6, 4),latitude decimal(9, 6),longitude decimal(9, 6),location varchar(255),radius decimal(10, 6),Foreign Key (userid) References user(userid) On Delete Cascade On Update Cascade);")
-                
+connect.execute("CREATE TABLE IF NOT EXISTS user (userid INTEGER PRIMARY KEY AUTOINCREMENT, email Varchar(100) Unique, adminStatus Integer, password Varchar(100));")   
+connect.close()
