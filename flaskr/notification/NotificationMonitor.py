@@ -32,6 +32,5 @@ class Notificationmonitor:
         list = [];
         for notif in Notifications:
             n = Notification(notif[1])
-            print(n)
             list.append({'Notification':n , 'email': notif[2]})
         self.Notifications = list;

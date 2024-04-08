@@ -4,7 +4,7 @@ from datetime import datetime
 from datetime import timedelta
 
 
-def job1():
+def handleNotifications():
     url = 'https://earthquake.usgs.gov/fdsnws/event/1/'
     events = []
     response = requests.get("{}query?format=geojson&starttime={}&endtime={}".format(url, (datetime.today() - timedelta(minutes = 5)), datetime.today())).json()
