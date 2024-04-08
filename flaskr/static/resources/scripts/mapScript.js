@@ -137,7 +137,7 @@ function predictionCircles(predictionObject, map){
             'color': 'red',
             'fillColor': '#f03',
             'fillOpacity': 0.5,
-            'radius': 500000
+            'radius': 100000
         }).addTo(map);
         predictionArray.push(circle);
         circle.bindPopup(`Rank: ${event.rank}<br>Description: ${event.description}`);
