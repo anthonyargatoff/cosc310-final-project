@@ -25,3 +25,9 @@ create table notification(
         On Delete Cascade
         On Update Cascade
 );
+
+Insert into user(userid, email,adminStatus,password) values(1,'ryanpybus8596@gmail.com',0,'passw');
+Insert into notification(userid,attributes) values(1,'magnitude:0-10;area:49.2827,123.1207,10000');
+-- Insert into notification(userid,attributes) values(1,'')
+-- Insert into notification(userid,attributes) values(1,'')
+

@@ -2,6 +2,7 @@ import os
 from flask import Flask, render_template
 from flask_apscheduler import APScheduler
 from flask_cors import CORS, cross_origin
+from flaskr.notification.Job1 import job1
 
 def create_app(test_config=None):
     # create and configure the app
@@ -11,10 +12,17 @@ def create_app(test_config=None):
         SECRET_KEY='dev',
         DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
     )
-    
-    # set configuration value for APScheduler
-    class Config:
-        SCHEDULER_API_ENABLED = True
+
+    # initialize scheduler
+    scheduler = APScheduler()
+    scheduler.api_enabled = True
+    scheduler.init_app(app)
+    scheduler.start()
+    @scheduler.task('interval', id='do_job_1', seconds=300)
+    def job1():
+        print('Job1 Running')
+        job1()
+        print('Job1 Done')
 
     if test_config is None:
         # load the instance config, if it exists, when not testing
