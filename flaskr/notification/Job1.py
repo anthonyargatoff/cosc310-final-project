@@ -19,5 +19,5 @@ def handleNotifications():
         event = {"magnitude":mag, "latitude":latitude, "longitude":longitude}
         events.append(event)
 
-    NM = Notificationmonitor('testNotify.db')
+    NM = Notificationmonitor('flaskr\main.db')
     NM.notifyAll(events)

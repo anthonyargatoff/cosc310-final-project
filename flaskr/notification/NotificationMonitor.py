@@ -1,4 +1,4 @@
-import flaskr.notification.NotificationManager as NM
+import flaskr.databaseClasses.NotificationManager as NM
 from flaskr.notification.Notification import Notification
 from flaskr.notification.sendEmail import send_email
 
