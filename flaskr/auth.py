@@ -45,14 +45,6 @@ def signup_page():
 def accountmanager_page():
     return render_template('manageAccount.html')
 
-
-@auth.route('/signup', methods=['GET', 'POST'])
-def signup():
-     if request.method == 'POST':
-        #add database functionality here  
-        return redirect('/search')
-     return render_template('Signup.html')
-
 @auth.route('/notifications')
 def nottificationmanager_page():
     return render_template('manageNotifications.html')
