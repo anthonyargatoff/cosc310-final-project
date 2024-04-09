@@ -130,3 +130,22 @@ def about_page():
 @view.route('/account')
 def account_management_page():
     return render_template('accountManagement.html')
+
+# TODO integrate actual prediction data here
+@view.route('/testpredictiondata')
+def testData():
+    events = [
+        {
+            'latitude': 45.6,
+            'longitude': -145.6,
+            'rank': 4,
+            'description': 'This is the 4th most expected area to have an earthquake occur.'
+        },
+        {
+            'latitude': -50.6,
+            'longitude': 145.6,
+            'rank': 5,
+            'description': 'This is the 5th most expected area to have an earthquake occur.'
+        }
+    ]
+    return jsonify(events)
