@@ -14,6 +14,15 @@
 
     <!-- Form Component-->
     <main class="container form-signin w-100 m-auto text-center vh-100">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <ul class="flashes" role="alert">
+            {% for category, message in messages %}
+              <li class="{{ category }}">{{ message }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      {% endwith %}
       <form style="width: 380px; display: inline-block; margin-top: 100px;" action="/login" method="post">
         <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
     
