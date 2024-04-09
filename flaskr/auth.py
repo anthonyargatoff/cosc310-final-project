@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, session
+from flask import Blueprint, flash, render_template, request, redirect, session
 from .databaseClasses import DBManager as DBM
 # create blueprint
 auth = Blueprint('auth', __name__)
@@ -14,12 +14,12 @@ def login():
     if request.method == 'POST':
         email = request.form['email']
         pw = request.form['password']
-        print(email, pw)
-        # need to figure out how to access the remember me checkbox
-        # next steps are to incorporate the database and setup credential validation
-        # from here redirect to the main page which is search page
-        # next steps for the redirect would be to include a payload to dynamically display public user data like their username
-        return redirect('/search')
+        
+        if userDB.validateUser(email, pw):
+            # if login is successful, set the session to the user's email
+            return redirect('/search')
+        else:
+            flash('Login Unsuccessful. Please check email and password', 'error')
         
     return render_template('login.html')
 
@@ -29,14 +29,17 @@ def admin_page():
 
 @auth.route('/signup', methods =['GET', 'POST'])
 def signup_page():
+    # process the form data
     if request.method == 'POST':
         email = request.form['email']
         pw = request.form['password']
         cpw = request.form['confirm_password']
 
-        if hash(pw) != hash(cpw):
+        # check if the password and confirm password match and if the email is already in use
+        if hash(pw) != hash(cpw) or userDB.selectUserId(email) != False:
             return render_template('Signup.html')
         else:
+            # else create a new user and redirect to login page with code 307
             userDB.addUser(email, pw, 0)
             return redirect('/login', code=307)
     return render_template('Signup.html')
