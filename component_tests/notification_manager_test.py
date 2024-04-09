@@ -2,10 +2,6 @@
 # Import packages
 import sqlite3;
 import unittest;
-import sys
-import os
-
-#sys.path.insert(0, os.path.abspath('..'))
 
 from flaskr.databaseClasses import NotificationManager as NM
 
