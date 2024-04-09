@@ -24,10 +24,11 @@ create table notification(
     Foreign Key (userid) References user(userid)
         On Delete Cascade
         On Update Cascade
+
 );
 
 Insert into user(userid, email,adminStatus,password) values(1,'ryanpybus8596@gmail.com',0,'passw');
 Insert into notification(userid,attributes) values(1,'magnitude:0-10;area:49.2827,123.1207,10000');
--- Insert into notification(userid,attributes) values(1,'')
--- Insert into notification(userid,attributes) values(1,'')
 
+INSERT INTO user (email, adminStatus, password) VALUES ('test@hotmail.com', 1, 'test');
+INSERT INTO notification (userid, attributes) VALUES (2, 'magnitude:1-10;area:0,0,50');
