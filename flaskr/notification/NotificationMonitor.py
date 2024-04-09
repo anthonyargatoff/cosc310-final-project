@@ -17,7 +17,7 @@ class Notificationmonitor:
         self.loadNotify();
 
     def notifyAll(self, Events):
-        """_summary_
+        """Sends notifications to all that qualify
 
         Args:
             Events (List<dict>): List of events organized by dicts with keys magnitude, latitude, longitude
@@ -35,6 +35,8 @@ class Notificationmonitor:
                 send_email(body, notif['email'])
 
     def loadNotify(self):
+        """Load notifications from database
+        """
         manager = NM.DBNotification(self.database)
         Notifications = manager.getAllNotifications()
         list = [];
