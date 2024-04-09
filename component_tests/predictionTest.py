@@ -1,6 +1,7 @@
 import unittest
 from flaskr.distanceBetweenPoints.prediction import predictionCalculator
 
+
 class test_Prediction(unittest.TestCase):
 
     def setUp(self):
