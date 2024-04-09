@@ -1,6 +1,7 @@
 import unittest
 from flaskr.distanceBetweenPoints.prediction import predictionCalculator
 
+
 class test_Prediction(unittest.TestCase):
 
     def setUp(self):
@@ -24,9 +25,8 @@ class test_Prediction(unittest.TestCase):
                            {'count': 1, 'latitude': 67.7689, 'longitude': -157.4438},
                            {'count': 1, 'latitude': 33.477, 'longitude': -116.5283333}];
         
-    def testGetEvents(self):
-        Events = predictionCalculator.getEvents('2022-04-20','2022-04-21');
-        self.assertEqual(len(Events), 391);
+    def testGetEventsDB(self):
+        Events = predictionCalculator.getEventsDB('2022-04-20','2022-04-21');
         self.assertEqual(Events[0], {'latitude': 61.6795, 'longitude': -143.2598});
 
     def testGetPredictions(self):

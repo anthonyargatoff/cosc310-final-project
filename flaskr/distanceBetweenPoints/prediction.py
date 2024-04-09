@@ -1,12 +1,17 @@
 
 import sqlite3
-from distanceBetweenPoints import coordinateCalculator
+from flaskr.distanceBetweenPoints.distanceBetweenPoints import coordinateCalculator
 from operator import itemgetter
+
+import requests
+from datetime import date
+from datetime import timedelta
+
 
 class predictionCalculator():
 
     @staticmethod
-    def getEvents(startDate, endDate):
+    def getEventsDB(startDate, endDate):
         """Gets all events in date range from main.db 
 
         Args:
@@ -32,7 +37,28 @@ class predictionCalculator():
         return events;
 
     @staticmethod
-    def getPredictions(events, radius = 100):
+    def getEventsAPI():
+        """Gets all events in last 4 days from API 
+
+        Returns:
+            _type_: list of events with latitude and longitude keys for each event from API
+        """
+
+        url = 'https://earthquake.usgs.gov/fdsnws/event/1/'
+        events = []
+        response = requests.get("{}query?format=geojson&starttime={}&endtime={}".format(url, (date.today() - timedelta(days = 4)), date.today())).json()
+
+        for feature in response["features"]:
+            geometry = feature["geometry"]
+            longitude = geometry["coordinates"][0]
+            latitude = geometry["coordinates"][1]
+
+            event = {"latitude":latitude, "longitude":longitude}
+            events.append(event)
+        return events
+
+    @staticmethod
+    def getPredictions(events, radius = 200):
         """_summary_
 
         Args:
@@ -60,16 +86,11 @@ class predictionCalculator():
                 if coordinateCalculator.getDistanceKilometers(processedEvent['latitude'],processedEvent['longitude'],eachevent['latitude'],eachevent['longitude']) < radius:
                     valid = False;
             if valid:
-                output.append(processedEvent);
+                desc = 'Based on ' + str(processedEvent['count']) + ' events in this area'
+                finalEvent = {'latitude': processedEvent['latitude'], 'longitude': processedEvent['longitude'], 
+                              'count':processedEvent['count'], 'rank': (len(output)+1), 'description': desc}
+                output.append(finalEvent);
             if len(output) > 9:
                 return output;
         return output;
 
-'''
-get point i of n from database.
-variable iPoints to hold number of points found
-compare it with all other database items, i2, i3, i4, ..., in
-if $in$ is in the radius, add +1 to iPoints
-repeat for each point in db
-return the top 10 points that do not overlap with each other
-'''
