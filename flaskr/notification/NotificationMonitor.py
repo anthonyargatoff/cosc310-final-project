@@ -24,13 +24,15 @@ class Notificationmonitor:
         """
         for notif in self.Notifications:
             sendEvents = [];
+            match = False
             for event in Events:
                 if notif['Notification'].compareNewEvent(event['magnitude'],event['latitude'],event['longitude']):
                     sendEvents.append(event);
+                    match = True
             msgBody = '';
-            if len(sendEvents) > 0:
+            if match:
                 for event in sendEvents:
-                    msgBody + '\n Magnitude: {} lat: {} long: {}'.format(event['magnitude'], event['latitude'], event['longitude'])
+                    msgBody = msgBody + '\n Magnitude: {} lat: {} long: {}'.format(event['magnitude'], event['latitude'], event['longitude'])
                 body = "A new event has triggered your notification settings." + msgBody
                 send_email(body, notif['email'])
 
