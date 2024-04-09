@@ -155,13 +155,13 @@ class DBUser():
             return False
 
     def listUsers(self):
-        """ Return a list of all users in the table
+        """ Return a string of all users in the table
 
         Args:
             None
 
         Returns:
-            List: userid, email, adminStatus of all users in the table
+            String: userid,email,adminStatis tuples separated by spaces
         """
         try:
             con = sqlite3.connect(self.dbLocation)
