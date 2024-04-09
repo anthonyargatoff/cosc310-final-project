@@ -338,11 +338,24 @@ function getDefaultDate(){
     return [`${year}-${month}-${day}`, `${tomorrowYear}-${tomorrowMonth}-${tomorrowDay}`]
 }
 
+/** Removes spaces and commas from string. Used for geocode
+ * 
+ * @param {String} address String address
+ * @returns Address with + in between elements
+ */
 function convertAddress(address){
     const parts = address.split(/[ ,]+/);
     return parts.join('+');
 }
 
+/** Creates circle of a users search
+ * 
+ * @param {Leaflet Map} mapObj 
+ * @param {float} lat 
+ * @param {float} lon 
+ * @param {float} radius 
+ * @returns {circle}
+ */
 function createSearchCircle(mapObj, lat, lon, radius){
     const circle = L.circle([lat, lon], {
         color: 'green',
