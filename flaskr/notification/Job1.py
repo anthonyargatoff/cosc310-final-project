@@ -5,6 +5,8 @@ from datetime import timedelta
 
 
 def handleNotifications():
+    """Fetches last 5 mins from API, then hands them to the notification monitor
+    """
     url = 'https://earthquake.usgs.gov/fdsnws/event/1/'
     events = []
     response = requests.get("{}query?format=geojson&starttime={}&endtime={}".format(url, (datetime.today() - timedelta(minutes = 5)), datetime.today())).json()
