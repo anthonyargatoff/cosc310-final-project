@@ -4,28 +4,35 @@ from flaskr.notification.sendEmail import send_email
 
 class Notificationmonitor:
     """
-    
+    hadndles notification sending
     """
     def __init__(self, databasepath):
-        """
-        Initialization.
+        """Initialization
 
+        Args:
+            databasepath (String): Path to the database
         """
         self.Notifications = [];
         self.database = databasepath;
         self.loadNotify();
 
     def notifyAll(self, Events):
+        """_summary_
+
+        Args:
+            Events (List<dict>): List of events organized by dicts with keys magnitude, latitude, longitude
+        """
         for notif in self.Notifications:
             sendEvents = [];
             for event in Events:
                 if notif['Notification'].compareNewEvent(event['magnitude'],event['latitude'],event['longitude']):
                     sendEvents.append(event);
             msgBody = '';
-            for event in sendEvents:
-                msgBody + '\n Magnitude: {} lat: {} long: {}'.format(event['magnitude'], event['latitude'], event['longitude'])
-            body = "A new event has triggered your notification settings." + msgBody
-            send_email(body, notif['email'])
+            if len(sendEvents) > 0:
+                for event in sendEvents:
+                    msgBody + '\n Magnitude: {} lat: {} long: {}'.format(event['magnitude'], event['latitude'], event['longitude'])
+                body = "A new event has triggered your notification settings." + msgBody
+                send_email(body, notif['email'])
 
     def loadNotify(self):
         manager = NM.DBNotification(self.database)
