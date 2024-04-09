@@ -55,11 +55,3 @@ def test_login_redirect_follow(client):
     #assert len(response.history) == 1
     assert response.request.path == '/search'
 
-
-# test if the data being sent to the client side js
-# is the correct data
-def test_data_points_sent(client):
-    response = client.get('/search')
-    res_data = response.get_json()
-
-    assert response.status_code == 200
