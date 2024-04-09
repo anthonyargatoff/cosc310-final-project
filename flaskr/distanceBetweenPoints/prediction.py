@@ -45,8 +45,6 @@ class predictionCalculator():
         """
 
         url = 'https://earthquake.usgs.gov/fdsnws/event/1/'
-        #https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2014-01-01&endtime=2014-01-02
-
         events = []
         response = requests.get("{}query?format=geojson&starttime={}&endtime={}".format(url, (date.today() - timedelta(days = 4)), date.today())).json()
 
