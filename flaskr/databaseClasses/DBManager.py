@@ -168,11 +168,15 @@ class DBUser():
             cursor = con.cursor()
             SQL = "SELECT userid, email, adminStatus FROM user"
             result = cursor.execute(SQL)
-            return result.fetchall()
+            userString = ""
+            for row in result:
+                userString += str(row[0]) + "," + str(row[1]) + "," + str(row[2])+" "
+            return userString
         except Exception as e:
             print("Operation failed: ")
             print(e)
             return False
+        
 
 
 

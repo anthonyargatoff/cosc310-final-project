@@ -35,5 +35,9 @@ create table notification (
 );
 
 INSERT INTO user (email, adminStatus, password) VALUES ('test@hotmail.com', 1, 'test');
-INSERT INTO notification (userid, minMagnitude, maxMagnitude, latitude, longitude, location, radius, attributes) VALUES (0, 1, 10, 0, 0, 'testland', 50);
+INSERT INTO user (email, adminStatus, password) VALUES ('test2@hotmail.com', 0, 'test2');
+INSERT INTO user (email, adminStatus, password) VALUES ('test3@hotmail.com', 0, 'test3');
+INSERT INTO notification (userid, minMagnitude, maxMagnitude, latitude, longitude, location, radius) VALUES (0, 1, 10, 0, 0, 'testland', 50);
+INSERT INTO notification (userid, minMagnitude, maxMagnitude, latitude, longitude, location, radius) VALUES (1, 1, 10, 0, 0, 'testland', 50);
+INSERT INTO notification (userid, minMagnitude, maxMagnitude, latitude, longitude, location, radius) VALUES (2, 1, 10, 0, 0, 'testland', 50);
 INSERT INTO earthquake (title, eventTime, magnitude, latitude, longitude, depth, url) VALUES ('test', '2020-01-01', 0, 0, 0, 0, 'test');

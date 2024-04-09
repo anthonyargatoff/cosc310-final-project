@@ -53,13 +53,12 @@ def nottificationmanager_page():
 
 @auth.route('/adminViewUsers')
 def adminViewUsers_page():
-    users = ""
-    error = ""
+    users, error = "", ""
     User = DBUser(database)
     users = User.listUsers()
-    if users == False:
-        error = "Failed to retrieve users"
-    return render_template('adminViewUsers.html',users=users,error=error)
+    if not users:
+        error = "Failed to retrieve users : " + str(users)
+    return render_template('adminViewUsers.html',users=users,usersJSON=json.dumps(users),error=error)
 
 @auth.route('/createNotification', methods=['POST'])
 def nottificationcreator_page():
@@ -101,9 +100,3 @@ def viewNotifications():
     if notifications == []: #if notifications is empty
         notifications = "No notifications found"
     return render_template('viewNotifications.html',notifications=notifications,notifJSON=json.dumps(notifications))
-
-# cant access tables in database, so this is a temporary fix
-connect = sqlite3.connect(database)
-connect.execute("CREATE TABLE IF NOT EXISTS notification (notifyid INTEGER PRIMARY KEY AUTOINCREMENT,userid Integer,minMagnitude decimal(6, 4),maxMagnitude decimal(6, 4),latitude decimal(9, 6),longitude decimal(9, 6),location varchar(255),radius decimal(10, 6),Foreign Key (userid) References user(userid) On Delete Cascade On Update Cascade);")
-connect.execute("CREATE TABLE IF NOT EXISTS user (userid INTEGER PRIMARY KEY AUTOINCREMENT, email Varchar(100) Unique, adminStatus Integer, password Varchar(100));")   
-connect.close()

@@ -12,16 +12,31 @@
 <body>
     <!-- Navbar Component -->
     {% include 'navbar.html' %}
-    <h1>{{ users }}</h1>
-    <h2>{{ error }}</h2>
+    <p>{{ error }}<p>
     <a href="/admin" class="btn btn-primary" style="margin-left: 10em; margin-top: 5em;">Back</a>
 
+    <div class="d-flex justify-content-center text-center">
+    <table id="userTableBody" class="table">
+        <tr><th>ID</th><th>Email</th><th>Admin</th></tr>
+    </table>
+</div>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
         let users = '{{ users }}';
-        console.log(users);
+        // user string comes in as id,email,admin id,email,admin ...
+        const userRows = users.split(" ");
+        const tableBody = document.querySelector("#userTableBody");
+        userRows.forEach(user => {
+            const userData = user.split(",");
+            const row = document.createElement("tr");
+            userData.forEach(data => {
+                const cell = document.createElement("td");
+                cell.textContent = data;
+                row.appendChild(cell);
+            });
+            tableBody.appendChild(row);
         });
-
+    });
     </script>
     {% include 'footer.html' %}
 </body>
