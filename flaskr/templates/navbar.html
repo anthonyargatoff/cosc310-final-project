@@ -23,12 +23,15 @@
 
                 <script>
                     document.addEventListener("DOMContentLoaded", function () {
+
                         let sessionEmail = '{{ session["email"] }}';
+                        console.log(sessionEmail);
                         account = document.getElementById("account");
                         login = document.getElementById("login");
                         logout = document.getElementById("logout");
                         // check if session email exists
-                        if (sessionEmail === null || sessionEmail === undefined) {
+
+                        if (sessionEmail === undefined || sessionEmail === "") {
                             logout.innerHTML = '<li class="nav-item"><a class="nav-link" href="/login">Sign In</a></li>';
                         } else {
                             account.innerHTML = '<li class="nav-item"><a class="nav-link" href="/account">Account</a></li>';
