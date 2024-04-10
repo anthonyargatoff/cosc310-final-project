@@ -25,22 +25,22 @@
         <div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary">
           <span class="fs-4">Search</span>
           <hr>
-          <form method="POST" action="#">
+          <form id="searchForm">
             <label class="form-label">Search by location or coordinates</label>
             <div class="input-group mb-0">
-              <input type="search" class="form-control rounded" placeholder="Search location" aria-label="Search"
+              <input autocomplete="off" type="search" class="form-control rounded" placeholder="Search location" aria-label="Search"
                 aria-describedby="search-addon" id="location">
             </div>
             <p class="text-center mb-0">or</p>
             <div class="input-group mb-4">
               <span class="input-group-text">Latitude</span>
-              <input type="number" class="form-control" id="lat">
+              <input autocomplete="off" type="number" class="form-control" id="lat">
               <span class="input-group-text">longitude</span>
-              <input type="number" class="form-control" id="long">
+              <input autocomplete="off" type="number" class="form-control" id="long">
             </div>
             <div class="input-group mb-4">
               <span class="input-group-text">Radius</span>
-              <input type="number" class="form-select" id="radius" name="radius" list="radiuskm">
+              <input autocomplete="off" type="number" class="form-select" id="radius" name="radius" list="radiuskm">
               <datalist id="radiuskm">
                 <option value="1">1km</option>
                 <option value="2">2km</option>
@@ -58,22 +58,22 @@
             <label class="form-label">Select Date Range</label>
             <div class="input-group mb-2">
               <span class="input-group-text">From: </span>
-              <input type="date" id="minDate" name="minDate" class="form-control">
+              <input autocomplete="off" type="date" id="minDate" name="minDate" class="form-control">
             </div>
             <div class="input-group mb-4">
               <span class="input-group-text">To: </span>
-              <input type="date" id="maxDate" name="maxDate" class="form-control">
+              <input autocomplete="off" type="date" id="maxDate" name="maxDate" class="form-control">
             </div>
             <label class="form-label">Magnitude</label>
             <div class="input-group mb-2 justify-content-center">
-              <input type="number" id="minMag" name="minMag" min="0" max="10" step="0.1" size="4" class="form-control">
+              <input autocomplete="off" type="number" id="minMag" name="minMag" min="0" max="10" step="0.1" size="4" class="form-control">
               <span class="input-group-text" id="basic-addon1">Between</span>
-              <input type="number" id="maxMag" name="maxMag" min="0" max="10" step="0.1" size="4" class="form-control">
+              <input autocomplete="off" type="number" id="maxMag" name="maxMag" min="0" max="10" step="0.1" size="4" class="form-control">
             </div>
 
             <div class="input-group mb-2 justify-content-center">
-              <button type="reset" class="btn btn-outline-secondary" type="button" id="search-addon">Clear</button>
-              <button class="btn btn-outline-primary " type="button" id="search-addon">Search</button>
+              <button type="reset" class="btn btn-outline-secondary" type="button" id="clear">Clear</button>
+              <button class="btn btn-outline-primary " type="button" id="search">Search</button>
             </div>
           </form>
 
@@ -118,6 +118,7 @@
       </div>
     </div>
   </div>
+  {{ session['email'] }}
   {% include 'footer.html' %}
 
   <script>
