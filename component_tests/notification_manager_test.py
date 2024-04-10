@@ -9,6 +9,7 @@ class test_DBManager(unittest.TestCase):
 
     def setUp(self):
         self.con = sqlite3.connect("component_tests/testdata/TestNotify.db")
+        #self.con = sqlite3.connect("LifeCycle-Thugs/component_tests/testdata/TestNotify.db")
         self.con.execute("PRAGMA foreign_keys = 1")
         self.cursor = self.con.cursor()
         self.cursor.execute("Insert into notification(userid,attributes) values(2,'TestGet')")

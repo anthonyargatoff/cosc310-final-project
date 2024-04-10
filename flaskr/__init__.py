@@ -37,6 +37,9 @@ def create_app(test_config=None):
     except OSError:
         pass
 
+    # secret key (for sessions)
+    app.secret_key = b'530b17a9cd34f78482515412ecf4caf663e23accc30d3aaf070f1c9a3fbd084a'
+
     # relative imports of the blueprints
     from .auth import auth
     from .view import view
