@@ -97,3 +97,18 @@ class DBNotification():
             print("transaction failed: ")
             print(e)
 
+    def getAllNotifications(self):
+        """
+        Returns a list of the All notifications, (notifyid, attributes).
+
+        """
+        try:
+            con = sqlite3.connect(self.dbLocation)
+            cursor = con.cursor()
+            SQL = "Select notifyid, attributes, email From notification join user on user.userid = notification.userid "
+            result = cursor.execute(SQL)
+            return result.fetchall()
+        except Exception as e:
+            print("transaction failed: ")
+            print(e)
+

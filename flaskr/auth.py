@@ -4,7 +4,7 @@ from .databaseClasses import DBManager as DBM
 auth = Blueprint('auth', __name__)
 
 # database setup
-userDB = DBM.DBUser('main.db')
+userDB = DBM.DBUser('flaskr/main.db')
 
 # routes 
 
@@ -17,6 +17,10 @@ def login():
         
         if userDB.validateUser(email, pw):
             # if login is successful, set the session to the user's email
+            session['email'] = email
+            session['password'] = pw
+            if (userDB.validateAdmin(email, pw)):
+                session['admin'] = True
             return redirect('/search')
         else:
             flash('Login Unsuccessful. Please check email and password', 'error')
@@ -33,11 +37,14 @@ def signup_page():
         cpw = request.form['confirm_password']
 
         # check if the password and confirm password match and if the email is already in use
-        if hash(pw) != hash(cpw) or userDB.selectUserId(email) != False:
+        if hash(pw) != hash(cpw) and userDB.selectUserId(email) != False:
             return render_template('Signup.html')
         else:
             # else create a new user and redirect to login page with code 307
             userDB.addUser(email, pw, 0)
+            session['email'] = email
+            session['password'] = pw
+
             return redirect('/login', code=307)
     return render_template('Signup.html')
 

@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, redirect, request, jsonify
 import sqlite3
 from flaskr.distanceBetweenPoints.distanceBetweenPoints import coordinateCalculator
+from flaskr.distanceBetweenPoints.prediction import predictionCalculator
 
 view = Blueprint('view', __name__)
 
@@ -130,3 +131,11 @@ def about_page():
 @view.route('/account')
 def account_management_page():
     return render_template('accountManagement.html')
+
+# TODO integrate actual prediction data here
+@view.route('/testpredictiondata')
+def testData():
+    rawevents = predictionCalculator.getEventsAPI();
+    events = predictionCalculator.getPredictions(rawevents)
+
+    return jsonify(events)

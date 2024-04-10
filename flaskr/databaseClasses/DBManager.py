@@ -25,7 +25,7 @@ class DBUser():
             con.execute("PRAGMA foreign_keys = 1")      # enforces foreign keys
             cursor = con.cursor();
             params = (email, password, adminstatus);
-            SQL = "Insert Into user(email,password,adminStatus) values(?,?,?)"
+            SQL = "Insert Into user (email,password,adminStatus) values(?,?,?)"
             cursor.execute(SQL, params)
             con.commit()
             con.close()
