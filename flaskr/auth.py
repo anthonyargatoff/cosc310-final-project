@@ -19,7 +19,6 @@ def login():
             # if login is successful, set the session to the user's email
             session['email'] = email
             session['password'] = pw
-            session['loggedin'] = True
             if (userDB.validateAdmin(email, pw)):
                 session['admin'] = True
             return redirect('/search')
