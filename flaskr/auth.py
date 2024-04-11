@@ -1,5 +1,8 @@
 from flask import Blueprint, flash, render_template, request, redirect, session
 from .databaseClasses import DBManager as DBM
+import sqlite3
+from flask import Blueprint, render_template, request, redirect, session
+
 # create blueprint
 auth = Blueprint('auth', __name__)
 
@@ -14,11 +17,12 @@ def login():
     if request.method == 'POST':
         email = request.form['email']
         pw = request.form['password']
-        
+        id = userDB.selectUserId(email)
         if userDB.validateUser(email, pw):
             # if login is successful, set the session to the user's email
             session['email'] = email
             session['password'] = pw
+            session['userid'] = id
             if (userDB.validateAdmin(email, pw)):
                 session['admin'] = True
             return redirect('/search')
@@ -53,6 +57,7 @@ def signup_page():
 def admin_page():
     return render_template('Admin.html')
 
+
 @auth.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
@@ -63,6 +68,7 @@ def signup():
         if ((not User.validateUser()) and pw == confirmpw):
             User.addUser(email, pw, 0)
 
+
 @auth.route('/account')
 def accountmanager_page():
     return render_template('manageAccount.html')
@@ -70,4 +76,5 @@ def accountmanager_page():
 @auth.route('/notifications')
 def nottificationmanager_page():
     return render_template('manageNotifications.html')
+
 
