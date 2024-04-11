@@ -18,7 +18,9 @@
           <p class="lead mb-4">Explore visual earthquake information and stay updated with seismic activities around the world.</p>
           <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
             <a href="/search"><button type="button" class="btn btn-primary btn-lg px-4 gap-3">Search</button></a>
-            <a href="/login"><button type="button" class="btn btn-outline-secondary btn-lg px-4">Sign In</button></a>
+            {% if not session.loggedin %}
+              <a href="/login"><button type="button" class="btn btn-outline-secondary btn-lg px-4">Sign In</button></a>
+            {% endif %}
           </div>
         </div>
       </div>
