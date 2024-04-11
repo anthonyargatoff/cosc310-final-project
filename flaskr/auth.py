@@ -18,7 +18,6 @@ def login():
         if userDB.validateUser(email, pw):
             # if login is successful, set the session to the user's email
             session['email'] = email
-            session['password'] = pw
             if (userDB.validateAdmin(email, pw)):
                 session['admin'] = True
             return redirect('/search')
@@ -43,11 +42,16 @@ def signup_page():
             # else create a new user and redirect to login page with code 307
             userDB.addUser(email, pw, 0)
             session['email'] = email
-            session['password'] = pw
 
             return redirect('/login', code=307)
     return render_template('Signup.html')
 
+@auth.route('/logout')
+def logout():
+    session.pop('email', None)
+    if (session.get('admin') == True):
+        session.pop('admin', None)
+    return render_template('Landing.html')
 
 @auth.route('/admin')
 def admin_page():
