@@ -49,8 +49,7 @@ def signup_page():
 @auth.route('/logout')
 def logout():
     session.pop('email', None)
-    if (session.get('admin') == True):
-        session.pop('admin', None)
+    session.pop('admin', None)
     return render_template('Landing.html')
 
 @auth.route('/admin')
