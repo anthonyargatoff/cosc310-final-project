@@ -23,23 +23,23 @@
     </div>
 
     <div class="container-sm">
-
         <div id="createNotification" class="d-flex flex-column justify-content-center text-center d-none">
             <form method="POST" action="/createNotification">
                 <div class="row justify-content-center">
-                    <div class="col-3">
+                    <!-- GOAL: Add implementaiton for string location -->
+                    <!-- <div class="col-3">
                         <label for="location" class="form-label">Location</label>
                         <input type="text" class="form-control" id="location" name="location"
                             placeholder="Enter a location" required>
-                    </div>
-                    <span>OR</span>
+                    </div> -->
+                    <!-- <span>OR</span> -->
                     <div class="col-2">
                         <label for="latitude" class="form-label">Latitude</label>
-                        <input type="number" class="form-control" id="latitude" name="latitude" step="0.1">
+                        <input type="number" class="form-control" id="latitude" name="latitude" step="0.0001" required>
                     </div>
                     <div class="col-2">
                         <label for="longitude" class="form-label">Longitude</label>
-                        <input type="number" class="form-control" id="longitude" name="longitude" step="0.1">
+                        <input type="number" class="form-control" id="longitude" name="longitude" step="0.0001" required>
                     </div>
                 </div>
                 <div class="row justify-content-center mt-5">
@@ -82,7 +82,7 @@
             const createNotificationLink = document.getElementById('createButton');
             const viewNotificationDiv = document.getElementById('viewNotification');
             const createNotificationDiv = document.getElementById('createNotification');
-            const locationInput = document.getElementById('location');
+            // const locationInput = document.getElementById('location');
             const latInput = document.getElementById('latitude');
             const longInput = document.getElementById('longitude');
             const minMagnitudeInput = document.getElementById('minMagnitude');
@@ -102,39 +102,40 @@
             createNotificationLink.addEventListener('click', function (event) {
                 createNotificationDiv.classList.remove('d-none');
             });
+            // THIS CODE IS FOR STRING LOCATION IMPLEMENTATION
             // if location input has input
-            locationInput.addEventListener('input', function (event) {
-                latInput.setAttribute('disabled', 'disabled');
-                longInput.setAttribute('disabled', 'disabled');
-                latInput.removeAttribute('required', 'required');
-                longInput.removeAttribute('required', 'required');
-                if (locationInput.value === '') {
-                    latInput.removeAttribute('disabled', 'disabled');
-                    longInput.removeAttribute('disabled', 'disabled');
-                }
-            });
+            // locationInput.addEventListener('input', function (event) {
+            //     latInput.setAttribute('disabled', 'disabled');
+            //     longInput.setAttribute('disabled', 'disabled');
+            //     latInput.removeAttribute('required', 'required');
+            //     longInput.removeAttribute('required', 'required');
+            //     if (locationInput.value === '') {
+            //         latInput.removeAttribute('disabled', 'disabled');
+            //         longInput.removeAttribute('disabled', 'disabled');
+            //     }
+            // });
             // if latInput has input
-            latInput.addEventListener('input', function (event) {
-                locationInput.setAttribute('disabled', 'disabled');
-                locationInput.removeAttribute('required', 'required');
-                latInput.setAttribute('required', 'required');
-                longInput.setAttribute('required', 'required');
-                if (latInput.value === '' && longInput.value === '') {
-                    locationInput.removeAttribute('disabled', 'disabled');
-                    latInput.setAttribute('required', '');
-                    longInput.setAttribute('required', '');
-                }
-            });
-            // if longInput has input
-            longInput.addEventListener('input', function (event) {
-                locationInput.setAttribute('disabled', 'disabled');
-                locationInput.removeAttribute('required', 'required');
-                latInput.setAttribute('required', 'required');
-                longInput.setAttribute('required', 'required');
-                if (latInput.value === '' && longInput.value === '') {
-                    locationInput.removeAttribute('disabled', 'disabled');
-                }
-            });
+            // latInput.addEventListener('input', function (event) {
+            //     // locationInput.setAttribute('disabled', 'disabled');
+            //     // locationInput.removeAttribute('required', 'required');
+            //     latInput.setAttribute('required', 'required');
+            //     longInput.setAttribute('required', 'required');
+            //     if (latInput.value === '' && longInput.value === '') {
+            //         // locationInput.removeAttribute('disabled', 'disabled');
+            //         latInput.setAttribute('required', '');
+            //         longInput.setAttribute('required', '');
+            //     }
+            // });
+            // // if longInput has input
+            // longInput.addEventListener('input', function (event) {
+            //     // locationInput.setAttribute('disabled', 'disabled');
+            //     // locationInput.removeAttribute('required', 'required');
+            //     latInput.setAttribute('required', 'required');
+            //     longInput.setAttribute('required', 'required');
+            //     if (latInput.value === '' && longInput.value === '') {
+                    // locationInput.removeAttribute('disabled', 'disabled');
+        //         }
+        //     });
         });
     </script>
     {% include 'footer.html' %}

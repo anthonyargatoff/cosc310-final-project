@@ -25,7 +25,7 @@ class DBUser():
             con.execute("PRAGMA foreign_keys = 1")      # enforces foreign keys
             cursor = con.cursor();
             params = (email, password, adminstatus);
-            SQL = "Insert Into user(email,password,adminStatus) values(?,?,?)"
+            SQL = "Insert Into user (email,password,adminStatus) values(?,?,?)"
             cursor.execute(SQL, params)
             con.commit()
             con.close()
@@ -120,7 +120,8 @@ class DBUser():
             params = (email,)
             SQL = "Select userid From user Where email = ?"
             result = cursor.execute(SQL,params)
-            return result.fetchone()
+            row = result.fetchone()
+            return row[0]
         except Exception as e:
             print("Operation failed: ")
             print(e)
@@ -149,6 +150,48 @@ class DBUser():
             if (list[0][0] == email and list[0][1] == password and list[0][2] == 1):
                 return True
             else: return False
+        except Exception as e:
+            print("Operation failed: ")
+            print(e)
+            return False
+        
+    def getNotificationList(self, userid):
+        """ Get all notifications for a given user
+
+        Args:
+            userid (Integer): userid of user to get notifications for
+
+        Returns:
+            List: list of notifications for user
+        """
+        try:
+            con = sqlite3.connect(self.dbLocation)
+            cursor = con.cursor()
+            params = (userid,)
+            SQL = "Select * From notification Where userid = ?"
+            result = cursor.execute(SQL,params)
+            return result.fetchall()
+        except Exception as e:
+            print("Operation failed: ")
+            print(e)
+            return False
+        
+    def addNotification(self, userid, attributes):
+        """ Add a new notification to the database
+
+        Args:
+            userid      (Integer):  userid of user creating notification
+            attributes   (String):    minMag, maxMag, latitude, longitude, radius
+        """
+        try:
+            con = sqlite3.connect(self.dbLocation)
+            cursor = con.cursor()
+            params = (userid, attributes)
+            SQL = "INSERT INTO notification (userid, attributes) VALUES (?,?)"
+            cursor.execute(SQL, params)
+            con.commit()
+            con.close()
+            return True
         except Exception as e:
             print("Operation failed: ")
             print(e)

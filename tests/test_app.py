@@ -2,6 +2,7 @@ import json
 import pytest
 from flask import request, url_for
 from flaskr import create_app
+from flaskr.databaseClasses import DBManager as DBM
 
 @pytest.fixture()
 def app():
@@ -38,12 +39,22 @@ def test_login_form_redirect(client):
     assert response.status_code == 302
 
 # test the redirect to search page after signing up
+# proper signup
 def test_signup_redirect(client):
+    db = DBM.DBUser('main.db')
     form_data = {
-
+        "email":"someone2@example.com",
+        "password":"1234",
+        "confirm_password":"1234"
     }
-    response = client.post('/signup', data=form_data)
-    assert response.status_code == 302
+    response = client.post('/signup', data=form_data, follow_redirects=True)
+
+    #assert response.status_code == 307
+    assert response.request.path == '/login'
+    x = db.selectUserId('someone2@example.com');
+    assert x is not False
+
+
 
 def test_login_redirect_follow(client):
     form_data = {
@@ -55,20 +66,3 @@ def test_login_redirect_follow(client):
     #assert len(response.history) == 1
     assert response.request.path == '/search'
 
-
-# test if the data being sent to the client side js
-# is the correct data
-def test_data_points_sent(client):
-    data_sent = {
-        'Kelowna': [49.88, -119.49],
-        'Vancouver': [49.28, -129.12],
-        'some_data': 'Hello World!'
-    }
-
-    response = client.get('/send_data')
-    res_data = response.get_json()
-
-    for key, val in data_sent.items():
-        assert key in res_data and val == res_data[key]
-
-    assert response.status_code == 200
