@@ -16,4 +16,4 @@ __pycache__
 *.pyc
 
 # database files
-.db
+*.db
