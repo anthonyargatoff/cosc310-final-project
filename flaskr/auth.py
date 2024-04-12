@@ -81,6 +81,9 @@ def signup():
         if ((not User.validateUser()) and pw == confirmpw):
             User.addUser(email, pw, 0)
 
+@auth.route('/analytics')
+def analytics_page():
+    return render_template('Analytics.html')
 
 @auth.route('/account')
 def accountmanager_page():

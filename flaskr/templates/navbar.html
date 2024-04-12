@@ -25,7 +25,6 @@
                 <li class="nav-item" id="login"></li>
                 <li class="nav-item" id="logout"></li>
                 <li class="nav-item" id="admin"></li>
-                <li class="nav-item" id="analytics"></li>
 
                 <script>
                     document.addEventListener("DOMContentLoaded", function () {
@@ -35,9 +34,8 @@
                         account = document.getElementById("account");
                         login = document.getElementById("login");
                         logout = document.getElementById("logout");
-                        admin = document.getElementById("admin");
-                        // check if session email exists
 
+                        // check if session email exists
                         if (sessionEmail === undefined || sessionEmail === "") {
                             logout.innerHTML = '<li class="nav-item"><a class="nav-link" href="/login">Sign In</a></li>';
                         } else {
