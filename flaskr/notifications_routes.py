@@ -1,9 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, session
 from .databaseClasses import DBManager as DBM
 import sqlite3
-from flaskr.earthquakeAPI.geocode import convertAddress
-import asyncio
-
 userDB = DBM.DBUser('flaskr/main.db')
 database = "database.db"
 
@@ -32,20 +29,8 @@ def nottificationcreator_page():
         return redirect('/login', code=307)
     else:
         if request.method == 'POST':
-            addressString = request.form.get('location', '')
-            latitude = str(request.form.get('latitude', ''))
-            longitude = str(request.form.get('longitude', ''))
-            radius = str(request.form['radius'])
-            minMagnitude = str(request.form['minMagnitude'])
-            maxMagnitude = str(request.form['maxMagnitude'])
-
-            if (addressString):
-                coordinates = asyncio.run(convertAddress(addressString))
-                latitude = coordinates[0]
-                longitude = coordinates[1]
-            
-            attributeString = "magnitude:"+ minMagnitude + "-" + maxMagnitude +";area:" + latitude +","+ longitude +","+ radius
-            if (userDB.addNotification(id, attributeString)):
+            attributes = "magnitude:"+str(request.form.get('minMagnitude')) + "-" + str(request.form.get('maxMagnitude')) +";area:"+ str(request.form.get('latitude')) +","+ str(request.form.get('longitude')) +","+ str(request.form.get('radius'))
+            if (userDB.addNotification(id, attributes)):
                 result = "Notification created successfully"
             else:
                 result = "Failed to create notification"
