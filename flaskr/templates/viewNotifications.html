@@ -14,34 +14,57 @@
     {% include 'navbar.html' %}
     <a href="/notifications" class="btn btn-primary" style="margin-left: 10em; margin-top: 5em;">Back</a>
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-        let notifications = '{{ notifications }}';
-        //let notifJSON = '{{ notifJSON|tojson|safe }}';
-        // working for now, may need to swtich to JSON.parse(notifJSON) later
+        document.addEventListener("DOMContentLoaded", function () {
+            let notifications = '{{ notifications }}';
 
-        // Currently shows all notifications in database. Once sessions is working, need to filter by user id
+            notifications = notifications.replace('[(', '');
+            notifications = notifications.replace(')]', '');
+            notifications = notifications.split('), (');
 
-        notifications = notifications.replace('[(', '');
-        notifications = notifications.replace(')]', '');
-        notifications = notifications.split('), (');
 
-        // Get a reference to the table
-        var table = document.getElementById("tableBody");
-        var deleteButton = '<button class="btn btn-danger">Delete</button>';
-        // for each row of data
-        for (var i = 0; i < notifications.length; i++) {
-            var notification = notifications[i].split(', ');
-            table.appendChild(document.createElement('tr'));
-            // each cell in the row
-            for (var j = 0; j < notification.length; j++) {
+            // Get a reference to the table
+            var table = document.getElementById("tableBody");
+            var deleteButton = '<button class="btn btn-danger">Delete</button>';
+            // for each row of data
+            for (var i = 0; i < notifications.length; i++) {
+                let notification = notifications[i];
+                notification = notification.substring(notification.indexOf('magnitude'));
+                table.appendChild(document.createElement('tr'));
+                notification = notification.replace('&#39', '');
+                // remove the start of the string that says 'magnitude:'
+                notification = notification.substring(10);
+                // magRange is equal to the beginning of the string till the first occurence of ';'
+                let magRange = notification.substring(0, notification.indexOf(';'));
+                // latitude is equal to the first character after 'area:' and till the next ','
+                let latitude = notification.substring(notification.indexOf('area:') + 5, notification.indexOf(','));
+                // longitude is equal to the first character after the first ',' and till the next ','
+                let longitude = notification.substring(notification.indexOf(',') + 1, notification.indexOf(',', notification.indexOf(',') + 1));
+                // radius is equal to everything between the last ',' and the last ';'
+                let radius = notification.substring(notification.lastIndexOf(',') + 1, notification.lastIndexOf(';'));
+
+                console.log(magRange, latitude, longitude, radius);
+
+                // magnitude range
                 var cell = document.createElement('td');
-                cell.innerHTML = notification[j];
+                cell.innerHTML = magRange
                 table.appendChild(cell);
-            }
-            table.appendChild(document.createElement('td')).innerHTML = deleteButton;
+                // latitude
+                var cell = document.createElement('td');
+                cell.innerHTML = latitude
+                table.appendChild(cell);
+                // longitude
+                var cell = document.createElement('td');
+                cell.innerHTML = longitude
+                table.appendChild(cell);
+                // radius
+                var cell = document.createElement('td');
+                cell.innerHTML = radius
+                table.appendChild(cell);
+                // delete button
+                table.appendChild(document.createElement('td')).innerHTML = deleteButton;
 
-            
-        }
+
+            }
         });
 
     </script>
@@ -64,9 +87,7 @@
             </table>
         </div>
     </div>
-
-    
-    {% include 'footer.html' %}
+{% include 'footer.html' %}
 </body>
 
 </html>
