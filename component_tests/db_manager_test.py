@@ -43,7 +43,7 @@ class test_DBManager(unittest.TestCase):
     
     def test_f_SelectUserId(self):
         id = self.User.selectUserId('CCCC')
-        self.assertEqual(id[0],3)
+        self.assertEqual(id,3)
 
     def tearDown(self):
         self.cursor.execute("Delete From user Where email = 'Sample@test.com'")
