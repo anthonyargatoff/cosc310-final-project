@@ -16,6 +16,10 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/about">About</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/analytics">Analytics</a>
+                </li>
+                
                 <!-- buttons that change by session status-->
                 <li class="nav-item" id="account"></li>
                 <li class="nav-item" id="login"></li>
@@ -30,9 +34,8 @@
                         account = document.getElementById("account");
                         login = document.getElementById("login");
                         logout = document.getElementById("logout");
-                        admin = document.getElementById("admin");
-                        // check if session email exists
 
+                        // check if session email exists
                         if (sessionEmail === undefined || sessionEmail === "") {
                             logout.innerHTML = '<li class="nav-item"><a class="nav-link" href="/login">Sign In</a></li>';
                         } else {
