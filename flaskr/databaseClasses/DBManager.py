@@ -136,6 +136,7 @@ class DBUser():
         Returns:
             boolean: True if account exists and is an admin, else false.
         """
+        
         try:
             con = sqlite3.connect(self.dbLocation)
             cursor = con.cursor()
@@ -152,7 +153,8 @@ class DBUser():
         except Exception as e:
             print("Operation failed: ")
             print(e)
-            return False
+            return False 
+        
 
 
 
