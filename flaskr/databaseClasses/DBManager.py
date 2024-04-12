@@ -196,6 +196,27 @@ class DBUser():
             print("Operation failed: ")
             print(e)
             return False
+        
+    def listUsers(self):
+        """ Return a string of all users in the table
+        Args:
+            None
+        Returns:
+            String: userid,email,adminStatis tuples separated by spaces
+        """
+        try:
+            con = sqlite3.connect(self.dbLocation)
+            cursor = con.cursor()
+            SQL = "SELECT userid, email, adminStatus FROM user"
+            result = cursor.execute(SQL)
+            userString = ""
+            for row in result:
+                userString += str(row[0]) + "," + str(row[1]) + "," + str(row[2])+" "
+            return userString
+        except Exception as e:
+            print("Operation failed: ")
+            print(e)
+            return False
 
 
 

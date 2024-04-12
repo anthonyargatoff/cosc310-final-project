@@ -63,6 +63,13 @@ def signup_page():
 def admin_page():
     return render_template('Admin.html')
 
+@auth.route('/adminViewUsers')
+def adminViewUsers_page():
+    users, error = "", ""
+    users = userDB.listUsers()
+    if not users:
+        error = "Failed to retrieve users : " + str(users)
+    return render_template('adminViewUsers.html',users=users,error=error)
 
 @auth.route('/signup', methods=['GET', 'POST'])
 def signup():

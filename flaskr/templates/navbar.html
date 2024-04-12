@@ -20,22 +20,28 @@
                 <li class="nav-item" id="account"></li>
                 <li class="nav-item" id="login"></li>
                 <li class="nav-item" id="logout"></li>
+                <li class="nav-item" id="admin"></li>
 
                 <script>
                     document.addEventListener("DOMContentLoaded", function () {
-
+                        
                         let sessionEmail = '{{ session["email"] }}';
-                        console.log(sessionEmail);
+                        let sessionAdmin = '{{ session["admin"] }}';
                         account = document.getElementById("account");
                         login = document.getElementById("login");
                         logout = document.getElementById("logout");
+                        admin = document.getElementById("admin");
                         // check if session email exists
 
                         if (sessionEmail === undefined || sessionEmail === "") {
                             logout.innerHTML = '<li class="nav-item"><a class="nav-link" href="/login">Sign In</a></li>';
                         } else {
                             account.innerHTML = '<li class="nav-item"><a class="nav-link" href="/account">Account</a></li>';
-                            login.innerHTML += '<li class="nav-item"><a class="nav-link" href="/logout">Sign Out</a></li>';
+                            login.innerHTML = '<li class="nav-item"><a class="nav-link" href="/logout">Sign Out</a></li>';
+                        }
+                        console.log(sessionAdmin);
+                        if (sessionAdmin) {
+                            admin.innerHTML = '<li class="nav-item"><a class="nav-link" href="/admin">Admin</a></li>';
                         }
                     });
                 </script>
