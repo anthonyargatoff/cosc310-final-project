@@ -26,9 +26,12 @@ class Notificationmonitor:
             sendEvents = [];
             match = False
             for event in Events:
-                if notif['Notification'].compareNewEvent(event['magnitude'],event['latitude'],event['longitude']):
-                    sendEvents.append(event);
-                    match = True
+                try:
+                    if notif['Notification'].compareNewEvent(event['magnitude'],event['latitude'],event['longitude']):
+                        sendEvents.append(event);
+                        match = True
+                except:
+                    print(event['latitude']," ", event['longitude'])
             msgBody = '';
             if match:
                 for event in sendEvents:
