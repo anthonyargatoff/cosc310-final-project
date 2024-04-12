@@ -31,6 +31,12 @@ def login():
         
     return render_template('login.html')
 
+@auth.route('/logout')
+def logout():
+    session.pop('email', None)
+    session.pop('password', None)
+    session.pop('admin', None)
+    return render_template('logout.html')
 
 @auth.route('/signup', methods =['GET', 'POST'])
 def signup_page():
