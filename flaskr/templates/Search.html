@@ -21,7 +21,7 @@
     <!-- Row 1: filter and map-->
     <div class="row row-cols-auto">
       <!-- Filter List Component-->
-      <div class="col col-md-4 col-lg-3">
+      <div class="col col-md-4 col-lg-3" style="padding-right: 0;">
         <div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary">
           <span class="fs-4">Search</span>
           <hr>
@@ -91,36 +91,13 @@
         </div>
       </div>
       <!-- Map element-->
-      <div class="col d-flex col-md-8 col-lg-9">
-        <div class="" id="map" style="width: 90em; height: auto;"></div>
+      <div class="col d-flex col-md-8 col-lg-9" style="padding: 0;">
+        <div class="" id="map" style="width: 100%; height: auto;"></div>
       </div>
 
     </div> <!-- Row -->
     <!-- Row 2: event details table -->
-    <div class="row">
-      <div class="col-12">
-        <table class="table table-hover">
-          <thead>
-            <tr>
-              <th scope="col">Location</th>
-              <th scope="col">Magnitude</th>
-              <th scope="col">Depth</th>
-              <th scope="col">Time</th>
-            </tr>
-          <tbody>
-            <tr>
-              <td>n/a</td>
-              <td>n/a</td>
-              <td>n/a</td>
-              <td>n/a</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
   </div>
-  {{ session['email'] }}
-  {% include 'footer.html' %}
 
   <script>
     document.addEventListener('DOMContentLoaded', function () {
