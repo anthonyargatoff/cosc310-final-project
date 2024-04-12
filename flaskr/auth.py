@@ -23,6 +23,7 @@ def login():
             session['email'] = email
             session['password'] = pw
             session['userid'] = id
+            
             if (userDB.validateAdmin(email, pw)):
                 session['admin'] = True
             return redirect('/search')

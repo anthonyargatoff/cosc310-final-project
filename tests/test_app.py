@@ -28,7 +28,7 @@ def runner(app):
 
 def test_login_form_redirect(client):
     form_data = {
-        "email":"someone@example.com",
+        "email":"someone2@example.com",
         "password":"1234"
     }
 
@@ -41,9 +41,9 @@ def test_login_form_redirect(client):
 # test the redirect to search page after signing up
 # proper signup
 def test_signup_redirect(client):
-    db = DBM.DBUser('main.db')
+    db = DBM.DBUser('flaskr/main.db')
     form_data = {
-        "email":"someone2@example.com",
+        "email":"someone3@example.com",
         "password":"1234",
         "confirm_password":"1234"
     }
@@ -51,14 +51,15 @@ def test_signup_redirect(client):
 
     #assert response.status_code == 307
     assert response.request.path == '/login'
-    x = db.selectUserId('someone2@example.com');
+    x = db.selectUserId('someone3@example.com')
     assert x is not False
+    db.deleteUser('someone3@example.com')
 
 
 
 def test_login_redirect_follow(client):
     form_data = {
-        "email":"someone@example.com",
+        "email":"someone2@example.com",
         "password":"1234"
     }
 
