@@ -67,3 +67,26 @@ def test_login_redirect_follow(client):
     #assert len(response.history) == 1
     assert response.request.path == '/search'
 
+def test_logout(client):
+
+    # first login
+    form_data = {
+        "email":"someone2@example.com",
+        "password":"1234"
+    }
+
+    response = client.post('/login', data=form_data, follow_redirects=True)
+
+    # then logout
+    response = client.get('/logout', follow_redirects=True)
+    assert response.request.path == '/logout'
+    assert response.status_code == 200
+
+def test_admin_login(client):
+    pass
+
+def test_search(client):
+    pass
+
+
+
