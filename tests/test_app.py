@@ -92,13 +92,13 @@ def test_admin_login(client):
         response = client.post('/login', data=form_data, follow_redirects=True)
         assert session['admin'] == True
 
-def test_search(client):
-    pass
-
 def test_add_notification(client):
     pass
 
 def test_remove_notification(client):
+    pass
+
+def test_search(client):
     pass
 
 
