@@ -93,7 +93,24 @@ def test_admin_login(client):
         assert session['admin'] == True
 
 def test_add_notification(client):
-    pass
+    login_form_data = {
+        "email":"someone2@example.com",
+        "password":"1234"
+    }
+
+    notification_form_data = {
+        "addressString":"Kelowna",
+        "latitude":"",
+        "longitude":"",
+        "radius":"100",
+        "minMagnitude":"0",
+        "maxMagnitude":"10"
+    }
+    
+    response = client.post('/login', data=login_form_data, follow_redirects=True)
+    response = client.post('/createNotification', data=notification_form_data, follow_redirects=True)
+
+    assert response.status_code == 200
 
 def test_remove_notification(client):
     pass
