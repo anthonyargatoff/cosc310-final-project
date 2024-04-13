@@ -9,7 +9,7 @@ def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
     CORS(app)
     app.config.from_mapping(
-        SECRET_KEY='dev',
+        SECRET_KEY=b'530b17a9cd34f78482515412ecf4caf663e23accc30d3aaf070f1c9a3fbd084a',
         DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
     )
 
@@ -36,9 +36,6 @@ def create_app(test_config=None):
         os.makedirs(app.instance_path)
     except OSError:
         pass
-
-    # secret key (for sessions)
-    app.secret_key = b'530b17a9cd34f78482515412ecf4caf663e23accc30d3aaf070f1c9a3fbd084a'
 
     # relative imports of the blueprints
     from .auth import auth

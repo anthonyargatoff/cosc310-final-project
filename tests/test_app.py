@@ -1,6 +1,6 @@
 import json
 import pytest
-from flask import request, url_for
+from flask import request, url_for, session
 from flaskr import create_app
 from flaskr.databaseClasses import DBManager as DBM
 
@@ -83,10 +83,22 @@ def test_logout(client):
     assert response.status_code == 200
 
 def test_admin_login(client):
-    pass
+    form_data = {
+        "email":"test@hotmail.com",
+        "password":"test"
+    }
+
+    with client:
+        response = client.post('/login', data=form_data, follow_redirects=True)
+        assert session['admin'] == True
 
 def test_search(client):
     pass
 
+def test_add_notification(client):
+    pass
+
+def test_remove_notification(client):
+    pass
 
 
