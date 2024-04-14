@@ -112,10 +112,4 @@ def test_add_notification(client):
 
     assert response.status_code == 200
 
-def test_remove_notification(client):
-    pass
-
-def test_search(client):
-    pass
-
 
