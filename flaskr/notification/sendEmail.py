@@ -11,13 +11,13 @@ def send_email(body:str, recipient:str, subject:str = None):
         recipient (str): recipient
     """
     port = 587;
-    smtp_server = "smtp.gmail.com";
+    smtp_server = "smtp.gmail.com"
 
     # email and app password for the gmail sending the emails.
-    sender_email = "quakebot9000@gmail.com";
-    password = 'lwdvrqlzofwlgfll';
+    sender_email = "quakebot9000@gmail.com"
+    password = 'lwdvrqlzofwlgfll'
     if (subject == None):
-        subject = "QuakeQuest Notification";
+        subject = "QuakeQuest Notification"
 
     msg = EmailMessage()
     msg['Subject'] = subject
@@ -27,11 +27,11 @@ def send_email(body:str, recipient:str, subject:str = None):
 
     try:
         with smtplib.SMTP(smtp_server, port) as server:
-            server.ehlo();
-            server.starttls();
+            server.ehlo()
+            server.starttls()
 
-            server.login(sender_email, password);
+            server.login(sender_email, password)
             server.send_message(msg)
-            server.quit();
+            server.quit()
     except Exception as error:
-        print('Error:', error);
+        print('Error:', error)

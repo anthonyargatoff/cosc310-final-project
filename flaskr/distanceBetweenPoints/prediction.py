@@ -21,20 +21,20 @@ class predictionCalculator():
         Returns:
             _type_: list of events with latitude and longitude keys for each event
         """
-        con = sqlite3.connect("../main.db");
-        cursor = con.cursor();
+        con = sqlite3.connect("../main.db")
+        cursor = con.cursor()
         params = (startDate, endDate)
-        SQL = "Select latitude, longitude From earthquake Where eventTime Between ? and ?;";
-        cursor.execute(SQL, params);
-        rows = cursor.fetchall();
-        con.commit();
-        con.close();
+        SQL = "Select latitude, longitude From earthquake Where eventTime Between ? and ?;"
+        cursor.execute(SQL, params)
+        rows = cursor.fetchall()
+        con.commit()
+        con.close()
 
         events = [];
         for row in rows:
-            event = {'latitude': row[0], 'longitude': row[1]};
+            event = {'latitude': row[0], 'longitude': row[1]}
             events.append(event)
-        return events;
+        return events
 
     @staticmethod
     def getEventsAPI():
@@ -69,28 +69,28 @@ class predictionCalculator():
             _type_: List of predictions (length < 10), have latitude and longitude keys, as well as a count key
                         for the number of events nearby.
         """
-        processedEvents = [];
+        processedEvents = []
         for event in events:
-            reference = event;
-            count = 0;
+            reference = event
+            count = 0
             for eachevent in events:
                 if coordinateCalculator.getDistanceKilometers(reference['latitude'],reference['longitude'],eachevent['latitude'],eachevent['longitude']) < radius:
-                    count = count+1;
-            processedEvents.append({'latitude': reference['latitude'], 'longitude': reference['longitude'], 'count':count});
+                    count = count+1
+            processedEvents.append({'latitude': reference['latitude'], 'longitude': reference['longitude'], 'count':count})
 
-        sortedarr = sorted(processedEvents, key=itemgetter('count'), reverse=True);
-        output = [];
+        sortedarr = sorted(processedEvents, key=itemgetter('count'), reverse=True)
+        output = []
         for processedEvent in sortedarr:
-            valid = True;
+            valid = True
             for eachevent in output:
                 if coordinateCalculator.getDistanceKilometers(processedEvent['latitude'],processedEvent['longitude'],eachevent['latitude'],eachevent['longitude']) < radius:
-                    valid = False;
+                    valid = False
             if valid:
                 desc = 'Based on ' + str(processedEvent['count']) + ' events in this area'
                 finalEvent = {'latitude': processedEvent['latitude'], 'longitude': processedEvent['longitude'], 
                               'count':processedEvent['count'], 'rank': (len(output)+1), 'description': desc}
-                output.append(finalEvent);
+                output.append(finalEvent)
             if len(output) > 9:
-                return output;
-        return output;
+                return output
+        return output
 

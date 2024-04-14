@@ -12,9 +12,9 @@ class Notificationmonitor:
         Args:
             databasepath (String): Path to the database
         """
-        self.Notifications = [];
-        self.database = databasepath;
-        self.loadNotify();
+        self.Notifications = []
+        self.database = databasepath
+        self.loadNotify()
 
     def notifyAll(self, Events):
         """Sends notifications to all that qualify
@@ -23,16 +23,16 @@ class Notificationmonitor:
             Events (List<dict>): List of events organized by dicts with keys magnitude, latitude, longitude
         """
         for notif in self.Notifications:
-            sendEvents = [];
+            sendEvents = []
             match = False
             for event in Events:
                 try:
                     if notif['Notification'].compareNewEvent(event['magnitude'],event['latitude'],event['longitude']):
-                        sendEvents.append(event);
+                        sendEvents.append(event)
                         match = True
                 except:
                     print(event['latitude']," ", event['longitude'])
-            msgBody = '';
+            msgBody = ''
             if match:
                 for event in sendEvents:
                     msgBody = msgBody + '\n Magnitude: {} lat: {} long: {}'.format(event['magnitude'], event['latitude'], event['longitude'])
@@ -48,4 +48,4 @@ class Notificationmonitor:
         for notif in Notifications:
             n = Notification(notif[1])
             list.append({'Notification':n , 'email': notif[2]})
-        self.Notifications = list;
+        self.Notifications = list

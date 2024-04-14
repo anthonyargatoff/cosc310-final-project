@@ -26,7 +26,7 @@ class DBNotification():
         try:
             con = sqlite3.connect(self.dbLocation)
             con.execute("PRAGMA foreign_keys = 1")      # enforces foreign keys
-            cursor = con.cursor();
+            cursor = con.cursor()
             params = (userid, settings)
             SQL = "Insert Into notification(userid, attributes) values(?,?)"
             cursor.execute(SQL, params)
@@ -86,8 +86,8 @@ class DBNotification():
         """
         try:
             con = sqlite3.connect(self.dbLocation)
-            con.execute("PRAGMA foreign_keys = 1");      # enforces foreign keys
-            cursor = con.cursor();
+            con.execute("PRAGMA foreign_keys = 1")      # enforces foreign keys
+            cursor = con.cursor()
             params = (newAttributes, notifyid)
             SQL = 'Update notification Set attributes = ? Where notifyid = ? '
             cursor.execute(SQL,params)
