@@ -1,6 +1,6 @@
 import json
 import pytest
-from flask import request, url_for
+from flask import request, url_for, session
 from flaskr import create_app
 from flaskr.databaseClasses import DBManager as DBM
 
@@ -28,7 +28,7 @@ def runner(app):
 
 def test_login_form_redirect(client):
     form_data = {
-        "email":"someone@example.com",
+        "email":"someone2@example.com",
         "password":"1234"
     }
 
@@ -41,9 +41,9 @@ def test_login_form_redirect(client):
 # test the redirect to search page after signing up
 # proper signup
 def test_signup_redirect(client):
-    db = DBM.DBUser('main.db')
+    db = DBM.DBUser('flaskr/main.db')
     form_data = {
-        "email":"someone2@example.com",
+        "email":"someone3@example.com",
         "password":"1234",
         "confirm_password":"1234"
     }
@@ -51,18 +51,65 @@ def test_signup_redirect(client):
 
     #assert response.status_code == 307
     assert response.request.path == '/login'
-    x = db.selectUserId('someone2@example.com');
+    x = db.selectUserId('someone3@example.com')
     assert x is not False
+    db.deleteUser('someone3@example.com')
 
 
 
 def test_login_redirect_follow(client):
     form_data = {
-        "email":"someone@example.com",
+        "email":"someone2@example.com",
         "password":"1234"
     }
 
     response = client.post('/login', data=form_data, follow_redirects=True)
     #assert len(response.history) == 1
     assert response.request.path == '/search'
+
+def test_logout(client):
+
+    # first login
+    form_data = {
+        "email":"someone2@example.com",
+        "password":"1234"
+    }
+
+    response = client.post('/login', data=form_data, follow_redirects=True)
+
+    # then logout
+    response = client.get('/logout', follow_redirects=True)
+    assert response.request.path == '/logout'
+    assert response.status_code == 200
+
+def test_admin_login(client):
+    form_data = {
+        "email":"test@hotmail.com",
+        "password":"test"
+    }
+
+    with client:
+        response = client.post('/login', data=form_data, follow_redirects=True)
+        assert session['admin'] == True
+
+def test_add_notification(client):
+    login_form_data = {
+        "email":"someone2@example.com",
+        "password":"1234"
+    }
+
+    notification_form_data = {
+        "addressString":"Kelowna",
+        "latitude":"",
+        "longitude":"",
+        "radius":"100",
+        "minMagnitude":"0",
+        "maxMagnitude":"10"
+    }
+    
+    response = client.post('/login', data=login_form_data, follow_redirects=True)
+    response = client.post('/createNotification', data=notification_form_data, follow_redirects=True)
+
+    assert response.status_code == 200
+
 

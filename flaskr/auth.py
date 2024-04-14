@@ -1,7 +1,5 @@
 from flask import Blueprint, flash, render_template, request, redirect, session
 from .databaseClasses import DBManager as DBM
-import sqlite3
-from flask import Blueprint, render_template, request, redirect, session
 
 # create blueprint
 auth = Blueprint('auth', __name__)
@@ -23,8 +21,10 @@ def login():
             session['email'] = email
             session['password'] = pw
             session['userid'] = id
+
             if (userDB.validateAdmin(email, pw)):
                 session['admin'] = True
+                
             return redirect('/search')
         else:
             flash('Login Unsuccessful. Please check email and password', 'error')
@@ -47,7 +47,7 @@ def signup_page():
         cpw = request.form['confirm_password']
 
         # check if the password and confirm password match and if the email is already in use
-        if hash(pw) != hash(cpw) and userDB.selectUserId(email) != False:
+        if hash(pw) != hash(cpw) and userDB.selectUserId(email):
             return render_template('Signup.html')
         else:
             # else create a new user and redirect to login page with code 307

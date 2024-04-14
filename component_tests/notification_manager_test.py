@@ -1,7 +1,7 @@
 
 # Import packages
-import sqlite3;
-import unittest;
+import sqlite3
+import unittest
 
 from flaskr.databaseClasses import NotificationManager as NM
 

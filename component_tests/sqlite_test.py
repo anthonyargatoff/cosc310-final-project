@@ -1,6 +1,6 @@
 # Import package
-import sqlite3;
-import unittest;
+import sqlite3
+import unittest
 
 class test_SQLite(unittest.TestCase):
 

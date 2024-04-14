@@ -6,11 +6,11 @@ import sendEmail as sendEmail
 print ('Running')
 
 body = 'This is a test email from python'
-recipient = 'ryanpybus8596@gmail.com';
-sendEmail.send_email(body,recipient);
+recipient = 'ryanpybus8596@gmail.com'
+sendEmail.send_email(body,recipient)
 
 body = 'This is a test email from python'
-recipient = 'ryanpybus8596@gmail.com';
-sendEmail.send_email(body,recipient,'alternate subject');
+recipient = 'ryanpybus8596@gmail.com'
+sendEmail.send_email(body,recipient,'alternate subject')
 
 print('Finished')

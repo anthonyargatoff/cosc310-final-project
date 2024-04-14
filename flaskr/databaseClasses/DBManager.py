@@ -23,8 +23,8 @@ class DBUser():
         try:
             con = sqlite3.connect(self.dbLocation)
             con.execute("PRAGMA foreign_keys = 1")      # enforces foreign keys
-            cursor = con.cursor();
-            params = (email, password, adminstatus);
+            cursor = con.cursor()
+            params = (email, password, adminstatus)
             SQL = "Insert Into user (email,password,adminStatus) values(?,?,?)"
             cursor.execute(SQL, params)
             con.commit()
@@ -99,7 +99,8 @@ class DBUser():
                 return False
             if (list[0][0] == email and list[0][1] == password):
                 return True
-            else: return False
+            else: 
+                return False
         except Exception as e:
             print("Operation failed: ")
             print(e)
@@ -149,7 +150,8 @@ class DBUser():
                 return False
             if (list[0][0] == email and list[0][1] == password and list[0][2] == 1):
                 return True
-            else: return False
+            else: 
+                return False
         except Exception as e:
             print("Operation failed: ")
             print(e)

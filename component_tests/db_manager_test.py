@@ -1,11 +1,7 @@
 
 # Import package
-import sqlite3;
-import unittest;
-import sys
-import os
-
-#sys.path.insert(0, os.path.abspath('..'))
+import sqlite3
+import unittest
 
 from flaskr.databaseClasses import DBManager as DBM
 

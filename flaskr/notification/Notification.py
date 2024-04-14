@@ -42,7 +42,7 @@ class Notification:
         Returns:
             bool: Returns true if a magnitude is set.
         """        
-        return (self.maxMagnitude != None and self.minMagnitude !=None)
+        return (self.maxMagnitude is not None and self.minMagnitude is not None)
     
     def isDistanceSet(self)->bool:
         """
@@ -51,7 +51,7 @@ class Notification:
         Returns:
             bool: Returns true if an area has been set.
         """        
-        return (self.latitude != None and self.longitude != None and self.radius != None)
+        return (self.latitude is not None and self.longitude != None and self.radius is not None)
     
     def compareMagnitude(self, magnitude:float)->bool:
         """
