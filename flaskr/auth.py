@@ -1,7 +1,6 @@
 from flask import Blueprint, flash, render_template, request, redirect, session
 from .databaseClasses import DBManager as DBM
 import sqlite3
-from flask import Blueprint, render_template, request, redirect, session
 
 # create blueprint
 auth = Blueprint('auth', __name__)
