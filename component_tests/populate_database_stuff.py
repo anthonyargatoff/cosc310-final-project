@@ -1,6 +1,6 @@
 import os
-import sqlite3;
-import unittest;
+import sqlite3
+import unittest
 from flaskr.databaseClasses.populateDatabase import populateDb
 
 testDb = os.path.abspath("component_tests/testdata/test.db")
